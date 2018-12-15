@@ -1,14 +1,14 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
+# dependencies 忽略依赖文件
 /node_modules
 /.pnp
 .pnp.js
 
-# testing
+# testing  忽略测试文件
 /coverage
 
-# production
+# production 忽略生产代码
 /build
 /.idea/
 
