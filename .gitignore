@@ -11,6 +11,7 @@
 # production 忽略生产代码
 /build
 /.idea/
+.md
 
 # misc
 .DS_Store

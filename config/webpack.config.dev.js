@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const resolve = require('resolve');
@@ -70,7 +68,21 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
         },
     ];
     if (preProcessor) {
-        loaders.push(require.resolve(preProcessor));
+        // antd修改主题的样式
+        if ('less-loader' === preProcessor) {
+            const lessLoad = {
+                loader: require.resolve(preProcessor),
+                options: {
+                    modules: false,
+                    modifyVars: {
+                        'primary-color': '#1DA57A',
+                        'link-color': '#1DA57A',
+                        'border-radius-base': '2px',
+                    },
+                }
+            };
+            loaders.push(lessLoad);
+        } else loaders.push(require.resolve(preProcessor))
     }
     return loaders;
 };
@@ -233,6 +245,11 @@ module.exports = {
                                         },
                                     },
                                 ],
+                                // 按需引入antd的样式文件，不需要每个页面映入antd.less文件
+                                ['import', {
+                                    libraryName: 'antd',
+                                    style: true
+                                }]
                             ],
                             // This is a feature of `babel-loader` for webpack (not Babel itself).
                             // It enables caching results in ./node_modules/.cache/babel-loader/
@@ -319,7 +336,9 @@ module.exports = {
                     {
                         test: lessRegex,
                         exclude: lessModuleRegex,
-                        use: getStyleLoaders({importLoaders: 3}, 'less-loader'),
+                        use: getStyleLoaders({
+                            importLoaders: 3,
+                        }, 'less-loader'),
                     },
                     //  添加less解析model
                     {
@@ -329,8 +348,7 @@ module.exports = {
                                 importLoaders: 3,
                                 modules: true,
                                 getLocalIdent: getCSSModuleLocalIdent,
-                            },
-                            'less-loader'
+                            }, 'less-loader'
                         ),
                     },
                     // "file" loader makes sure those assets get served by WebpackDevServer.
