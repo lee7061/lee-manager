@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记录单模板测试</title>
+    <style>
+        p {
+            margin: 0
+        }
+
+        .record {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            font-family: '宋体'
+        }
+
+        .title {
+            margin: 0 0 20px 0;
+            text-align: center;
+            font-size: 35px
+        }
+
+        .baseInfoLeft > p {
+            margin: 0 10px 0 0
+        }
+
+        .dept {
+            width: 150px;
+            overflow: hidden;
+            white-space: nowrap
+        }
+
+        .name {
+            width: 130px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .bedNo {
+            width: 80px;
+            overflow: hidden;
+            white-space: nowrap
+        }
+
+        .diagnosis {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
+        .secondRow > p {
+            margin-right: 40px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            /*height: 100%;*/
+            table-layout: fixed;
+        }
+
+        td {
+            word-wrap: break-word;
+            word-break: break-all;
+            white-space: pre-line;
+            border: 1px solid #000;
+            padding: 0;
+            text-align: center;
+            font-size: 15px;
+            line-height: 30px;
+        }
+
+        tbody td:nth-last-child(2) {
+            text-align: left
+        }
+
+        tbody td {
+            line-height: 30px;
+        }
+
+        .baseAuto > a {
+            float: left;
+        }
+
+        #baseTable td {
+            text-align: left;
+        }
+
+        .logo {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            font-size: 20px;
+        }
+
+        a {
+            position: absolute;
+            right: 0;
+            top: 30px;
+        }
+
+        .tdCol {
+            border-bottom: none;
+            border-right: none;
+            border-left: none;
+            line-height: 0;
+        }
+
+        .nurseUser {
+            position: absolute;
+            right: 5px;
+            bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="record">
+    <div class="print-header">
+        <div class="logo">
+            <span>重庆市急救医疗中心</span>
+            <span>重庆市第四人民医院</span>
+        </div>
+        <h4 class="title">
+            护理记录单
+        </h4>
+        <table id="baseTable">
+            <tr>
+                <td colspan="1" style="width: 50px">科室</td>
+                <td colspan="2" style="width: 68px"><span class="dept dot-format"></span></td>
+                <td colspan="1" style="width: 58px">留观号</td>
+                <td colspan="2" style="width: 118px"><span class="viewNo dot-format"></span></td>
+                <td colspan="1" style="width: 50px">床号</td>
+                <td colspan="2" style="width: 85px"><span class="bedNo dot-format"></span></td>
+                <td colspan="2" style="width: 165px">入观时间</td>
+                <td colspan="3" style="width: 180px"><span class="admWardDateTime dot-format"></span></td>
+                <td colspan="2">出观时间</td>
+                <td colspan="4" style="width: 150px"><span class="disWardDateTime dot-format"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1">姓名</td>
+                <td colspan="2"><span class="name dot-format"></span></td>
+                <td colspan="1">性别</td>
+                <td colspan="2"><span class="sex dot-format"></span></td>
+                <td colspan="1">年龄</td>
+                <td colspan="2"><span class="age dot-format"></span></td>
+                <td colspan="2">日期</td>
+                <td colspan="9"><span class="dateTime dot-format"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1">诊断</td>
+                <td colspan="19"><span class="diagnosis dot-format"></span></td>
+            </tr>
+            <tr>
+                <td colspan="1" style="border-bottom: none ">病情</td>
+                <td colspan="19" style="border-bottom: none "><span class="mainComplaint dot-format"></span></td>
+            </tr>
+        </table>
+    </div>
+    <table id="tableInfo" class="dot-format">
+        <thead class="tableTitle dot-format">
+        </thead>
+        <tbody class="tableBody dot-format">
+        </tbody>
+        <tfoot class="tableFoot dot-format">
+        <tr>
+            <td class="tdCol">
+                <span class="nurseUser">审核护士:____________</span>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    let data = {
+        "signFlag": 1,
+        "data": [{
+            "COL11MERGE": "2018-11-27",
+            "COL1": "18:49",
+            "COL2": "dsa",
+            "COL3": "d",
+            "COL4": "asd",
+            "COL5": "as",
+            "COL6": "a",
+            "COL7": " ",
+            "COL8": "s",
+            "COL9": "sa",
+            "SIGN": "xxk",
+            "COL11": "2018-11-27"
+        }, {
+            "COL11MERGE": "2018-12-03",
+            "COL1": "16:30",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": "12",
+            "COL5": "12",
+            "COL6": "23",
+            "COL7": "3",
+            "COL8": "525",
+            "COL9": "鼻导给养",
+            "SIGN": "xxk",
+            "COL11": "2018-12-03"
+        }, {
+            "COL11MERGE": "2018-12-04",
+            "COL1": "18:49",
+            "COL2": "dsa",
+            "COL3": "d",
+            "COL4": "asd",
+            "COL5": "as",
+            "COL6": "a",
+            "COL7": " ",
+            "COL8": "s",
+            "COL9": "sa",
+            "SIGN": "xxk",
+            "COL11": "2018-12-04"
+        }, {
+            "COL11MERGE": "2018-12-04",
+            "COL1": "18:49",
+            "COL2": "dsa",
+            "COL3": "d",
+            "COL4": "asd",
+            "COL5": "as",
+            "COL6": "a",
+            "COL7": " ",
+            "COL8": "s",
+            "COL9": "sa",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-04",
+            "COL1": "18:49",
+            "COL2": "dsa",
+            "COL3": "d",
+            "COL4": "asd",
+            "COL5": "as",
+            "COL6": "a",
+            "COL7": " ",
+            "COL8": "s",
+            "COL9": "sa",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-04",
+            "COL1": "18:49",
+            "COL2": "dsa",
+            "COL3": "d",
+            "COL4": "asd",
+            "COL5": "as",
+            "COL6": "a",
+            "COL7": " ",
+            "COL8": "s",
+            "COL9": "sa",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-04",
+            "COL1": "19:08",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": "发生撒旦法撒为",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-07",
+            "COL1": "16:25",
+            "COL2": " ",
+            "COL3": "120",
+            "COL4": "20",
+            "COL5": "20",
+            "COL6": "20",
+            "COL7": "20",
+            "COL8": "020",
+            "COL9": "22141154新发地方 按程序发生as阿斯蒂",
+            "SIGN": "xxk",
+            "COL11": "2018-12-07"
+        }, {
+            "COL11MERGE": "2018-12-07",
+            "COL9": "芬as",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "00:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": "2018-12-10"
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "01:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "02:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "03:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "04:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "05:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "05:10",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": "12",
+            "COL8": "323",
+            "COL9": "232",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "06:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "07:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "08:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "09:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "10:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "10:55",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "11:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "12:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "13:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "14:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-10",
+            "COL1": "15:00",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-12",
+            "COL1": "01:11",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": "2018-12-12"
+        }, {
+            "COL11MERGE": "2018-12-12",
+            "COL1": "11:11",
+            "COL2": " ",
+            "COL3": "23",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": " ",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL1": "15:53",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": "姓  名:黄浩晨性别:女年龄:41岁民族:",
+            "SIGN": "xxk",
+            "COL11": "2018-12-14"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "汉族联系人:电话:住址:批量规模:1.大2",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": ".中3.小 意识状态:1.清醒2.意识障碍3.",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "无 分诊科室:内科急诊来院方式:步行分",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "诊护士:钟欣费别:自费就诊时间:2018-1",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "2-07 14:26:21啊塞关系哦【皮啊拉书写",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL1": "15:54",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": "姓  名:黄浩晨性别:女年龄:41岁民族:",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "汉族联系人:电话:住址:批量规模:1.大2",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": ".中3.小 意识状态:1.清醒2.意识障碍3.",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "无 分诊科室:内科急诊来院方式:步行分",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "诊护士:钟欣费别:自费就诊时间:2018-1",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "2-07 14:26:21啊塞关系哦【皮啊拉书写",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL1": "15:54",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": "姓  名:黄浩晨性别:女年龄:41岁民族:",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "汉族联系人:电话:住址:批量规模:1.大2",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": ".中3.小 意识状态:1.清醒2.意识障碍3.",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "无 分诊科室:内科急诊来院方式:步行分",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "诊护士:钟欣费别:自费就诊时间:2018-1",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "2-07 14:26:21啊塞关系哦【皮啊拉书写",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL1": "15:54",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": "姓  名:黄浩晨性别:女年龄:41岁民族:",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "汉族联系人:电话:住址:批量规模:1.大2",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": ".中3.小 意识状态:1.清醒2.意识障碍3.",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "无 分诊科室:内科急诊来院方式:步行分",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "诊护士:钟欣费别:自费就诊时间:2018-1",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "2-07 14:26:21啊塞关系哦【皮啊拉书写",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL1": "15:54",
+            "COL2": " ",
+            "COL3": " ",
+            "COL4": " ",
+            "COL5": " ",
+            "COL6": " ",
+            "COL7": " ",
+            "COL8": " ",
+            "COL9": "姓  名:黄浩晨性别:女年龄:41岁民族:",
+            "SIGN": "xxk",
+            "COL11": " "
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "汉族联系人:电话:住址:批量规模:1.大2",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": ".中3.小 意识状态:1.清醒2.意识障碍3.",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "无 分诊科室:内科急诊来院方式:步行分",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "诊护士:钟欣费别:自费就诊时间:2018-1",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }, {
+            "COL11MERGE": "2018-12-14",
+            "COL9": "2-07 14:26:21啊塞关系哦【皮啊拉书写",
+            "COL8": "",
+            "COL7": "",
+            "COL6": "",
+            "COL5": "",
+            "COL4": "",
+            "COL3": "",
+            "COL2": "",
+            "COL1": "",
+            "COL11": "",
+            "SIGN": "xxk"
+        }],
+        "printTemplate": "{\"style\":\"        p {\\n            margin: 0\\n        }\\n\\n        .record {\\n            width: 100%;\\n            height: 100%;\\n            margin: auto;\\n            font-family: '宋体'\\n        }\\n\\n        .title {\\n            margin: 0 0 20px 0;\\n            text-align: center;\\n            font-size: 35px\\n        }\\n\\n        .baseInfoLeft > p {\\n            margin: 0 10px 0 0\\n        }\\n\\n        .dept {\\n            width: 150px;\\n            overflow: hidden;\\n            white-space: nowrap\\n        }\\n\\n        .name {\\n            width: 130px;\\n            overflow: hidden;\\n            text-overflow: ellipsis;\\n            white-space: nowrap\\n        }\\n\\n        .bedNo {\\n            width: 80px;\\n            overflow: hidden;\\n            white-space: nowrap\\n        }\\n\\n        .diagnosis {\\n            width: 100%;\\n            overflow: hidden;\\n            text-overflow: ellipsis;\\n            white-space: nowrap\\n        }\\n\\n        .secondRow > p {\\n            margin-right: 40px;\\n        }\\n\\n        table {\\n            border-collapse: collapse;\\n            width: 100%;\\n            table-layout: fixed;\\n        }\\n\\n        td {\\n            word-wrap: break-word;\\n            word-break: break-all;\\n            white-space: pre-line;\\n            border: 1px solid #000;\\n            padding: 0;\\n            text-align: center;\\n            font-size: 15px;\\n            line-height: 30px;\\n        }\\n\\n        tbody td:nth-last-child(2) {\\n            text-align: left\\n        }\\n\\n        tbody td {\\n            line-height: 30px;\\n        }\\n\\n        .baseAuto > a {\\n            float: left;\\n        }\\n\\n        #baseTable td {\\n            text-align: left;\\n        }\\n\\n        .logo {\\n            width: 100%;\\n            display: flex;\\n            justify-content: space-around;\\n            font-size: 20px;\\n        }\\n\\n        a {\\n            position: absolute;\\n            right: 0;\\n            top: 30px;\\n        }\\n\\n        .tdCol {\\n            border-bottom: none;\\n            border-right: none;\\n            border-left: none;\\n            line-height: 0;\\n        }\\n\\n        .nurseUser {\\n            position: absolute;\\n            right: 5px;\\n    \\t\\t\\t\\tbottom: 30px;\\n        }\",\"scriptBefore\":\"    initHeader(data.tableHeader);\\n    setBaseInfo(data.patientInfo);\\n    initBody(data.tableHeader, data.data, JSON.parse(JSON.stringify(data.data[0])));\\n\\n    document.querySelector(\\\".tdCol\\\").setAttribute('colspan', data.tableHeader[0].defaultMaxColumn + 1)\\n\\n    function setBaseInfo(data) {\\n        document.querySelector('.dept').innerHTML = data.deptName || '';\\n        document.querySelector('.viewNo').innerHTML = data.viewNo || '';\\n        document.querySelector('.bedNo').innerHTML = data.bedNo || '';\\n        document.querySelector('.name').innerHTML = data.name || '';\\n        document.querySelector('.sex').innerHTML = data.sex || '';\\n        document.querySelector('.age').innerHTML = data.age || '';\\n        document.querySelector('.admWardDateTime').innerHTML = data.admWardDateTime || '';\\n        document.querySelector('.disWardDateTime').innerHTML = data.disWardDateTime || '';\\n        document.querySelector('.dateTime').innerHTML = data.dateTime || '';\\n        document.querySelector('.diagnosis').innerHTML = data.diagnosis || '';\\n        document.querySelector('.mainComplaint').innerHTML = data.mainComplaint || '';\\n    }\\n\\n    function initHeader(data) {\\n        let index = 0;\\n        let html = \\\"\\\";\\n        for (let a = 0; a < data.length; a++) {\\n            let d = data[a];\\n            if (a === 0) {\\n                html += \\\"<tr>\\\";\\n                index = d.row\\n            }\\n            if (d.row !== index) {\\n                html += \\\"</tr><tr>\\\"\\n            }\\n            html += \\\"<td style='width:\\\" + d.cell + \\\"px' rowspan='\\\" + (d.rowspan + 1) + \\\"' colspan='\\\" + (d.colspan > 0 ? d.colspan : 1) + \\\"'>\\\" + d.text + \\\"</td>\\\";\\n            index = d.row\\n        }\\n        document.getElementById('tableInfo').querySelector('.tableTitle').innerHTML = html + \\\"</tr>\\\"\\n    }\\n\\n    function initBody(tableHeader, tableBody, tableVal) {\\n         let ys = tableBody.length % 14\\n         if (ys !== 0) {\\n             for (let i = 0; i < (14 - ys); i++) {\\n                 for (let key in tableVal) {\\n                     if (tableVal.hasOwnProperty(key)) tableVal[key] = '\\\\n'\\n                 }\\n                 tableBody.push(tableVal)\\n             }\\n         }\\n        let html = '';\\n        tableBody.forEach(function (v) {\\n            html += '<tr>';\\n            tableHeader.forEach(function (header) {\\n                for (let key in v) {\\n                    if (v.hasOwnProperty(key) && key.toString().trim() === header.patientColumnName.trim()) {\\n                        if (v[key].trim().length > 0) {\\n                            try {\\n                                let value = JSON.parse(v[key]);\\n                                if (typeof value === 'object') {\\n                                    let arr = ''\\n                                    if (Array.isArray(value)) {\\n                                        for (let i = 0; i < value.length; i++) {\\n                                            if (value[i].key) {\\n                                                arr = value[i].key + ',' + arr\\n                                            } else {\\n                                                arr = value[i] + ',' + arr\\n                                            }\\n                                        }\\n                                        arr = arr.slice(0, arr.length - 1)\\n                                        html += '<td valign=\\\"top\\\" class=\\\"dot-format\\\">' + arr + '</td>'\\n                                    } else {\\n                                        html += '<td valign=\\\"top\\\" class=\\\"dot-format\\\">' + (value.key || '') + '</td>'\\n                                    }\\n                                } else {\\n                                    html += '<td valign=\\\"top\\\" class=\\\"dot-format\\\">' + (v[key] || '') + '</td>'\\n                                }\\n                            } catch (erre) {\\n                                html += '<td valign=\\\"top\\\" class=\\\"dot-format\\\">' + (v[key] || '') + '</td>'\\n                            }\\n                        } else {\\n                            html += '<td valign=\\\"top\\\" class=\\\"dot-format\\\">' + (v[key] || '') + '</td>'\\n                        }\\n                    }\\n                }\\n            });\\n            html += '</tr>'\\n        });\\n        document.querySelector('.tableBody').innerHTML = html\\n    }\",\"html\":\"<div class=\\\"record\\\">\\n    <div class=\\\"print-header\\\">\\n        <div class=\\\"logo\\\">\\n            <span>重庆市急救医疗中心</span>\\n            <span>重庆市第四人民医院</span>\\n        </div>\\n        <h4 class=\\\"title\\\">\\n            护理记录单\\n        </h4>\\n        <table id=\\\"baseTable\\\">\\n            <tr>\\n                <td colspan=\\\"1\\\" style=\\\"width: 50px\\\">科室</td>\\n                <td colspan=\\\"2\\\" style=\\\"width: 68px\\\"><span class=\\\"dept dot-format\\\"></span></td>\\n                <td colspan=\\\"1\\\" style=\\\"width: 58px\\\">留观号</td>\\n                <td colspan=\\\"2\\\" style=\\\"width: 118px\\\"><span class=\\\"viewNo dot-format\\\"></span></td>\\n                <td colspan=\\\"1\\\" style=\\\"width: 50px\\\">床号</td>\\n                <td colspan=\\\"2\\\" style=\\\"width: 85px\\\"><span class=\\\"bedNo dot-format\\\"></span></td>\\n                <td colspan=\\\"2\\\" style=\\\"width: 165px\\\">入观时间</td>\\n                <td colspan=\\\"3\\\" style=\\\"width: 180px\\\"><span class=\\\"admWardDateTime dot-format\\\"></span></td>\\n                <td colspan=\\\"2\\\">出观时间</td>\\n                <td colspan=\\\"4\\\" style=\\\"width: 150px\\\"><span class=\\\"disWardDateTime dot-format\\\"></span></td>\\n            </tr>\\n            <tr>\\n                <td colspan=\\\"1\\\">姓名</td>\\n                <td colspan=\\\"2\\\"><span class=\\\"name dot-format\\\"></span></td>\\n                <td colspan=\\\"1\\\">性别</td>\\n                <td colspan=\\\"2\\\"><span class=\\\"sex dot-format\\\"></span></td>\\n                <td colspan=\\\"1\\\">年龄</td>\\n                <td colspan=\\\"2\\\"><span class=\\\"age dot-format\\\"></span></td>\\n                <td colspan=\\\"2\\\">日期</td>\\n                <td colspan=\\\"9\\\"><span class=\\\"dateTime dot-format\\\"></span></td>\\n            </tr>\\n            <tr>\\n                <td colspan=\\\"1\\\">诊断</td>\\n                <td colspan=\\\"19\\\"><span class=\\\"diagnosis dot-format\\\"></span></td>\\n            </tr>\\n            <tr>\\n                <td colspan=\\\"1\\\" style=\\\"border-bottom: none \\\">病情</td>\\n                <td colspan=\\\"19\\\" style=\\\"border-bottom: none \\\"><span class=\\\"mainComplaint dot-format\\\"></span></td>\\n            </tr>\\n        </table>\\n    </div>\\n    <table id=\\\"tableInfo\\\" class=\\\"dot-format\\\">\\n        <thead class=\\\"tableTitle dot-format\\\">\\n        </thead>\\n        <tbody class=\\\"tableBody dot-format\\\">\\n        </tbody>\\n        <tfoot class=\\\"tableFoot dot-format\\\">\\n        <tr>\\n            <td class=\\\"tdCol\\\">\\n                <span class=\\\"nurseUser\\\">审核护士:____________</span>\\n            </td>\\n        </tr>\\n        </tfoot>\\n    </table>\\n</div>\",\"tableAllFoot\":true,\"fixPageNumber\":true,\"lateral\":true,\"pageAssign\":{\"height\":\"297\",\"width\":\"210\"},\"pageSize\":\"A4\",\"showAllPage\":true,\"continuousPrinting\":false,\"pageMarge\":{\"top\":\"5\",\"bottom\":\"0\",\"left\":\"10\",\"right\":\"10\"},\"script\":\"console.log(document.getElementsByClassName('page-item').length,11111111)\"}",
+        "patientInfo": {
+            "deptName": "内科急诊",
+            "name": "包国强",
+            "bedNo": "1",
+            "diagnosis": "支气管胃结肠瘘",
+            "age": "41岁",
+            "sex": "女",
+            "patientId": "18120711001",
+            "VISIT_ID": 0,
+            "PATIENT_ID": "18120711001",
+            "viewNo": "L1800767",
+            "admissionDateTime": "2018-12-07",
+            "mainComplaint": " 222222222",
+            "admWardDateTime": "2018-12-14 16:01:26",
+            "dateTime": "2018年12月14日"
+        },
+        "title": "急救中心-记录单",
+        "tableHeader": [{
+            "text": "日期",
+            "cell": 80,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 1,
+            "patientColumnName": "COL11"
+        }, {
+            "text": "时间",
+            "cell": 40,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 2,
+            "patientColumnName": "COL1"
+        }, {
+            "text": "体温",
+            "cell": 40,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 3,
+            "patientColumnName": "COL2"
+        }, {
+            "text": "脉搏   (次/分)",
+            "cell": 35,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 4,
+            "patientColumnName": "COL3"
+        }, {
+            "text": "呼吸   (次/分)",
+            "cell": 35,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 5,
+            "patientColumnName": "COL4"
+        }, {
+            "text": "血压 (mmHg)",
+            "cell": 60,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 6,
+            "patientColumnName": "COL5"
+        }, {
+            "text": "SPO2 (%)",
+            "cell": 30,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 7,
+            "patientColumnName": "COL6"
+        }, {
+            "text": "处理项目",
+            "cell": 80,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 8,
+            "patientColumnName": "COL7"
+        }, {
+            "text": "尿量(ml)",
+            "cell": 30,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 9,
+            "patientColumnName": "COL8"
+        }, {
+            "text": "病情记录",
+            "cell": 190,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 0,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 10,
+            "patientColumnName": "COL9"
+        }, {
+            "text": "签名",
+            "cell": 80,
+            "row": 1,
+            "colspan": 0,
+            "rowspan": 1,
+            "defaultMaxRow": 1,
+            "defaultMaxColumn": 10,
+            "SERIAL_NO": 100000,
+            "patientColumnName": "SIGN"
+        }]
+    }
+    initHeader(data.tableHeader);
+    setBaseInfo(data.patientInfo);
+    initBody(data.tableHeader, data.data, JSON.parse(JSON.stringify(data.data[0])));
+
+    document.querySelector(".tdCol").setAttribute('colspan', data.tableHeader[0].defaultMaxColumn + 1)
+
+    // 分页之后的script内容
+    // const tdData = document.querySelector(".page-item>#tableInfo>.tableBody>:first-child>:first-child").getAttribute("data-merge");
+    // console.log('tdData===', tdData);
+    // const pageItem = document.querySelectorAll(".page-item");
+    // for (let i = 0; i < pageItem.length; i++) {
+    //     const tdData = pageItem[i].querySelector('#tableInfo>tbody').querySelector('td').getAttribute("data-merge");
+    //     console.log(tdData);
+    //     pageItem[i].querySelector('#tableInfo>tbody').querySelector('td').innerHTML = tdData;
+    // }
+
+    function setBaseInfo(data) {
+        document.querySelector('.dept').innerHTML = data.deptName || '';
+        document.querySelector('.viewNo').innerHTML = data.viewNo || '';
+        document.querySelector('.bedNo').innerHTML = data.bedNo || '';
+        document.querySelector('.name').innerHTML = data.name || '';
+        document.querySelector('.sex').innerHTML = data.sex || '';
+        document.querySelector('.age').innerHTML = data.age || '';
+        document.querySelector('.admWardDateTime').innerHTML = data.admWardDateTime || '';
+        document.querySelector('.disWardDateTime').innerHTML = data.disWardDateTime || '';
+        document.querySelector('.dateTime').innerHTML = data.dateTime || '';
+        document.querySelector('.diagnosis').innerHTML = data.diagnosis || '';
+        document.querySelector('.mainComplaint').innerHTML = data.mainComplaint || '';
+    }
+
+    function initHeader(data) {
+        let index = 0;
+        let html = "";
+        for (let a = 0; a < data.length; a++) {
+            let d = data[a];
+            if (a === 0) {
+                html += "<tr>";
+                index = d.row
+            }
+            if (d.row !== index) {
+                html += "</tr><tr>"
+            }
+            html += "<td style='width:" + d.cell + "px' rowspan='" + (d.rowspan + 1) + "' colspan='" + (d.colspan > 0 ? d.colspan : 1) + "'>" + d.text + "</td>";
+            index = d.row
+        }
+        document.getElementById('tableInfo').querySelector('.tableTitle').innerHTML = html + "</tr>"
+    }
+
+    function initBody(tableHeader, tableBody, tableVal) {
+        let ys = tableBody.length % 12
+        if (ys !== 0) {
+            for (let i = 0; i < (12 - ys); i++) {
+                for (let key in tableVal) {
+                    if (tableVal.hasOwnProperty(key)) tableVal[key] = '\n'
+                }
+                tableBody.push(tableVal)
+            }
+        }
+        let html = '';
+        tableBody.forEach(function (v) {
+            html += '<tr>';
+            tableHeader.forEach(function (header) {
+                for (let key in v) {
+                    if (v.hasOwnProperty(key) && key.toString().trim() === header.patientColumnName.trim()) {
+                        if (v[key].trim().length > 0) {
+                            try {
+                                let value = JSON.parse(v[key]);
+                                if (typeof value === 'object') {
+                                    let arr = ''
+                                    if (Array.isArray(value)) {
+                                        for (let i = 0; i < value.length; i++) {
+                                            if (value[i].key) {
+                                                arr = value[i].key + ',' + arr
+                                            } else {
+                                                arr = value[i] + ',' + arr
+                                            }
+                                        }
+                                        arr = arr.slice(0, arr.length - 1)
+                                        html += '<td valign="top" data-merge="' + (v[key + 'MERGE'] || '') + '" class="dot-format">' + arr + '</td>'
+                                    } else {
+                                        html += '<td valign="top" data-merge="' + (v[key + 'MERGE'] || '') + '" class="dot-format">' + (value.key || '') + '</td>'
+                                    }
+                                } else {
+                                    html += '<td valign="top" data-merge="' + (v[key + 'MERGE'] || '') + '" class="dot-format">' + (v[key] || '') + '</td>'
+                                }
+                            } catch (erre) {
+                                html += '<td valign="top" data-merge="' + (v[key + 'MERGE'] || '') + '" class="dot-format">' + (v[key] || '') + '</td>'
+                            }
+                        } else {
+                            html += '<td valign="top" data-merge="' + (v[key + 'MERGE'] || '') + '" class="dot-format">' + (v[key] || '') + '</td>'
+                        }
+                    }
+                }
+            });
+            html += '</tr>'
+        });
+        document.querySelector('.tableBody').innerHTML = html
+    }
+</script>
+</body>
+</html>

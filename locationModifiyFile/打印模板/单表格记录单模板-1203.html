@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记录单模板-1203</title>
+    <style>
+
+        p {
+            margin: 0
+        }
+
+        .record {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            font-family: '宋体'
+        }
+
+        .title {
+            margin: 0 0 20px 0;
+            text-align: center;
+            font-size: 35px
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            height: 100%;
+            table-layout: fixed;
+        }
+
+        tr {
+            min-height: 30px;
+        }
+
+        td, th {
+            border: 1px solid #000;
+            padding: 0;
+            text-align: center;
+            font-size: 15px;
+            line-height: 30px;
+        }
+
+        td {
+            word-wrap: break-word;
+            word-break: break-all;
+        }
+
+        .tableBody td:nth-last-child(2) {
+            text-align: left
+        }
+
+        .tableBody td, th {
+            line-height: 30px;
+        }
+
+        .logo {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            font-size: 20px;
+        }
+
+        /*div table*/
+        .div-table {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border-top: 1px solid;
+            border-right: 1px solid;
+            font-size: 15px;
+        }
+
+        .table-row {
+            display: flex;
+            border-bottom: 1px solid;
+        }
+
+        .table-row:first-child {
+            border-left: none;
+        }
+
+        .last-row {
+            border-bottom: none;
+        }
+
+        .table-td {
+            border-left: 1px solid;
+        }
+
+        .one-td {
+            width: 45px;
+        }
+
+        .two-td {
+            width: 70px;
+        }
+
+        .three-td {
+            width: 60px;
+        }
+
+        .four-td {
+            width: 115px;
+        }
+
+        .five-td {
+            width: 52px;
+        }
+
+        .six-td {
+            width: 88px;
+        }
+
+        .seven-td {
+            width: 208px;
+        }
+
+        .nine-td, .ten-td {
+            width: 200px;
+        }
+
+        .tdCol {
+            border: none;
+            position: relative;
+            height: 40px !important;
+        }
+
+        .page {
+            display: flex;
+            justify-content: center;
+        }
+
+        .nurseUser {
+            position: absolute;
+            right: 5px;
+            top: 5px;
+        }
+
+        .nurseUserSpan {
+            text-decoration: underline
+        }
+
+    </style>
+</head>
+<body>
+<div class="record">
+    <div class="print-header">
+        <div class="logo">
+            <span>重庆市急救医疗中心</span>
+            <span>重庆市第四人民医院</span>
+        </div>
+        <h4 class="title">
+            护理记录单
+        </h4>
+        <div class="div-table">
+            <div class="table-row">
+                <div class="table-td one-td">科室</div>
+                <div class="table-td two-td dept"></div>
+                <div class="table-td three-td">留观号</div>
+                <div class="table-td four-td viewNo"></div>
+                <div class="table-td five-td">床号</div>
+                <div class="table-td six-td bedNo"></div>
+                <div class="table-td seven-td">日期</div>
+                <div class="table-td dateTime"></div>
+            </div>
+            <div class="table-row">
+                <div class="table-td one-td">姓名</div>
+                <div class="table-td two-td name"></div>
+                <div class="table-td three-td">性别</div>
+                <div class="table-td four-td sex"></div>
+                <div class="table-td five-td">年龄</div>
+                <div class="table-td six-td age"></div>
+                <div class="table-td seven-td">入观时间</div>
+                <div class="table-td nine-td admWardDateTime"></div>
+                <div class="table-td ten-td">出观时间</div>
+                <div class="table-td disWardDateTime"></div>
+            </div>
+            <div class="table-row">
+                <div class="table-td one-td">诊断</div>
+                <div class="table-td diagnosis"></div>
+            </div>
+            <div class="table-row last-row">
+                <div class="table-td one-td">病情</div>
+                <div class="table-td mainComplaint"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<table id="tableInfo" class="dot-format">
+    <thead class="tableTitle dot-format">
+    </thead>
+    <tbody class="tableBody dot-format">
+    </tbody>
+    <tfoot class="tableFoot dot-format">
+    <tr>
+        <td class="tdCol">
+            <div class="page dot-format">
+                <span>第</span>
+                <span class="dot-format page-number"></span>
+                <span>页</span>
+            </div>
+            <div class="nurseUser">
+                <span>审核护士: ____________</span>
+                <!--<span>审核护士: <span class="nurseUserSpan dot-format"></span></span>-->
+            </div>
+        </td>
+    </tr>
+    </tfoot>
+</table>
+<script>
+    let data = {
+        signFlag: 1,
+        data: [{
+            COL11: "2018-11-01",
+            COL2: "34",
+            COL3: "34",
+            COL1: "12:42",
+            COL6: "34",
+            COL7: "34231",
+            COL4: "34",
+            COL5: "34",
+            COL8: "1234",
+            SIGN: "xxk",
+            COL9: "abcdefgh好好好好好好好好ijklmaw"
+        }, {
+            COL11: " ",
+            COL2: " ",
+            COL3: " ",
+            COL1: " ",
+            COL6: " ",
+            COL7: " ",
+            COL4: " ",
+            COL5: " ",
+            COL8: " ",
+            COL9: "qaaaaaaaadsaffr好好好好好好好好",
+            SIGN: "xxk"
+        }, {
+            COL11: " ",
+            COL2: " ",
+            COL3: " ",
+            COL1: " ",
+            COL6: " ",
+            COL7: " ",
+            COL4: " ",
+            COL5: " ",
+            COL8: " ",
+            COL9: "wqereqrwer13333111111111111333",
+            SIGN: "xxk"
+        }, {
+            COL11: " ",
+            COL2: " ",
+            COL3: " ",
+            COL1: " ",
+            COL6: " ",
+            COL7: " ",
+            COL4: " ",
+            COL5: " ",
+            COL8: " ",
+            COL9: "31111111好好好好好好好",
+            SIGN: "xxk"
+        }],
+        patientInfo: {
+            deptName: "内科急诊",
+            name: "战无双",
+            bedNo: "红区",
+            diagnosis: "化学制剂、气体、烟雾和蒸汽引起蒸和亚急性呼吸性情况",
+            age: "56岁",
+            sex: "男",
+            patientId: 18110710901,
+            VISIT_ID: 0,
+            PATIENT_ID: 18110710901,
+            viewNo: "L1800616",
+            admissionDateTime: "2018-11-07",
+            mainComplaint: "病情蒸汽引起特指急性烟雾和蒸汽引起特指急性和亚急气体、烟雾和蒸汽引起特指 ",
+            admWardDateTime: '入观时间',
+            disWardDateTime: '出观时间',
+            dataTime: '2018年11月17日',
+        },
+        title: "急救中心-记录单",
+        tableHeader: [{
+            text: "日期",
+            cell: 80,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 1,
+            patientColumnName: 'COL11'
+        }, {
+            text: "时间",
+            cell: 40,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 2,
+            patientColumnName: 'COL1'
+        }, {
+            text: "体温",
+            cell: 40,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 3,
+            patientColumnName: 'COL2'
+        }, {
+            text: "脉搏   (次/分)",
+            cell: 35,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 4,
+            patientColumnName: 'COL3'
+        }, {
+            text: "呼吸   (次/分)",
+            cell: 35,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 5,
+            patientColumnName: 'COL4'
+        }, {
+            text: "血压 (mmHg)",
+            cell: 40,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 6,
+            patientColumnName: 'COL5'
+        }, {
+            text: "SPO2 (%)",
+            cell: 30,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 7,
+            patientColumnName: 'COL6'
+        }, {
+            text: "处理项目",
+            cell: 80,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 8,
+            patientColumnName: 'COL7'
+        }, {
+            text: "尿量(ml)",
+            cell: 30,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 9,
+            patientColumnName: 'COL8'
+        }, {
+            text: "病情记录",
+            cell: 210,
+            row: 1,
+            colspan: 0,
+            rowspan: 0,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 10,
+            patientColumnName: 'COL9'
+        }, {
+            text: "签名",
+            cell: 80,
+            row: 1,
+            colspan: 0,
+            rowspan: 1,
+            defaultMaxRow: 1,
+            defaultMaxColumn: 10,
+            SERIAL_NO: 100000,
+            patientColumnName: 'SIGN'
+        }]
+    }
+    initHeader(data.tableHeader);
+    setBaseInfo(data.patientInfo);
+    initBody(data.tableHeader, data.data);
+    document.querySelector(".tdCol").setAttribute('colspan', data.tableHeader[0].defaultMaxColumn + 1)
+
+    // document.querySelector('.nurseUserSpan').innerHTML = data.data[0].SIGN || '';
+
+    function initHeader(data) {
+        let index = 0;
+        let html = "";
+        for (let a = 0; a < data.length; a++) {
+            let d = data[a];
+            if (a === 0) {
+                html += "<tr>";
+                index = d.row
+            }
+            if (d.row !== index) {
+                html += "</tr><tr>"
+            }
+            html += "<td style='width:" + d.cell + "px' rowspan='" + (d.rowspan + 1) + "' colspan='" + (d.colspan > 0 ? d.colspan : 1) + "'>" + d.text + "</td>";
+            index = d.row
+        }
+        document.getElementById('tableInfo').querySelector('.tableTitle').innerHTML = html + "</tr>"
+    }
+
+    function setBaseInfo(data) {
+        document.querySelector('.dept').innerHTML = data.deptName || '';
+        document.querySelector('.viewNo').innerHTML = data.viewNo || '';
+        document.querySelector('.bedNo').innerHTML = data.bedNo || '';
+        document.querySelector('.name').innerHTML = data.name || '';
+        document.querySelector('.sex').innerHTML = data.sex || '';
+        document.querySelector('.age').innerHTML = data.age || '';
+        document.querySelector('.admWardDateTime').innerHTML = data.admWardDateTime || '';
+        document.querySelector('.disWardDateTime').innerHTML = data.disWardDateTime || '';
+        document.querySelector('.dateTime').innerHTML = data.dateTime || '';
+        document.querySelector('.diagnosis').innerHTML = data.diagnosis || '';
+        document.querySelector('.mainComplaint').innerHTML = data.mainComplaint || '';
+    }
+
+    function initBody(tableHeader, tableBody) {
+        let html = '';
+        tableBody.forEach(function (v) {
+            html += '<tr>';
+            console.log('tableHeader', tableHeader);
+            tableHeader.forEach(function (header) {
+                console.log('header', header);
+                for (let key in v) {
+                    if (v.hasOwnProperty(key) && key.toString().trim() === header.patientColumnName.trim()) {
+                        if (v[key].trim().length > 0) {
+                            try {
+                                let value = JSON.parse(v[key]);
+                                if (typeof value === 'object') {
+                                    let arr = ''
+                                    if (Array.isArray(value)) {
+                                        for (let i = 0; i < value.length; i++) {
+                                            if (value[i].key) {
+                                                arr = value[i].key + ',' + arr
+                                            } else {
+                                                arr = value[i] + ',' + arr
+                                            }
+                                        }
+                                        arr = arr.slice(0, arr.length - 1)
+                                        html += '<td valign="top" class="dot-format">' + arr + '</td>'
+                                    } else {
+                                        html += '<td valign="top" class="dot-format">' + (value.key || '') + '</td>'
+                                    }
+                                } else {
+                                    html += '<td valign="top" class="dot-format">' + (v[key] || '') + '</td>'
+                                }
+                            } catch (erre) {
+                                html += '<td valign="top" class="dot-format">' + (v[key] || '') + '</td>'
+                            }
+                        } else {
+                            html += '<td valign="top" class="dot-format">' + (v[key] || '') + '</td>'
+                        }
+                    }
+                }
+            });
+            html += '</tr>'
+        });
+        document.querySelector('.tableBody').innerHTML = html
+    }
+
+
+
+    initHeader(data.tableHeader);
+    setBaseInfo(data.patientInfo);
+    initBody(data.tableHeader, data.data, JSON.parse(JSON.stringify(data.data[0])));
+
+    document.querySelector(".tdCol").setAttribute('colspan', data.tableHeader[0].defaultMaxColumn + 1)
+
+    function setBaseInfo(data) {
+        document.querySelector('.dept').innerHTML = data.deptName || '';
+        document.querySelector('.viewNo').innerHTML = data.viewNo || '';
+        document.querySelector('.bedNo').innerHTML = data.bedNo || '';
+        document.querySelector('.name').innerHTML = data.name || '';
+        document.querySelector('.sex').innerHTML = data.sex || '';
+        document.querySelector('.age').innerHTML = data.age || '';
+        document.querySelector('.admWardDateTime').innerHTML = data.admWardDateTime || '';
+        document.querySelector('.disWardDateTime').innerHTML = data.disWardDateTime || '';
+        document.querySelector('.dateTime').innerHTML = data.dateTime || '';
+        document.querySelector('.diagnosis').innerHTML = data.diagnosis || '';
+        document.querySelector('.mainComplaint').innerHTML = data.mainComplaint || '';
+    }
+
+    function initHeader(data) {
+        let index = 0;
+        let html = "";
+        for (let a = 0; a < data.length; a++) {
+            let d = data[a];
+            if (a === 0) {
+                html += "<tr>";
+                index = d.row
+            }
+            if (d.row !== index) {
+                html += "</tr><tr>"
+            }
+            html += "<td style='width:" + d.cell + "px' rowspan='" + (d.rowspan + 1) + "' colspan='" + (d.colspan > 0 ? d.colspan : 1) + "'>" + d.text + "</td>";
+            index = d.row
+        }
+        document.getElementById('tableInfo').querySelector('.tableTitle').innerHTML = html + "</tr>"
+    }
+
+    function initBody(tableHeader, tableBody, tableVal) {
+        let ys = tableBody.length % 12
+        if (ys !== 0) {
+            for (let i = 0; i < (12 - ys); i++) {
+                for (let key in tableVal) {
+                    if (tableVal.hasOwnProperty(key)) tableVal[key] = '\n'
+                }
+                tableBody.push(tableVal)
+            }
+        }
+        let html = '';
+        tableBody.forEach(function (v) {
+            html += '<tr>';
+            tableHeader.forEach(function (header) {
+                for (let key in v) {
+                    if (v.hasOwnProperty(key) && key.toString().trim() === header.patientColumnName.trim()) {
+                        if (v[key].trim().length > 0) {
+                            try {
+                                let value = JSON.parse(v[key]);
+                                if (typeof value === 'object') {
+                                    let arr = ''
+                                    if (Array.isArray(value)) {
+                                        for (let i = 0; i < value.length; i++) {
+                                            if (value[i].key) {
+                                                arr = value[i].key + ',' + arr
+                                            } else {
+                                                arr = value[i] + ',' + arr
+                                            }
+                                        }
+                                        arr = arr.slice(0, arr.length - 1)
+                                        html += '<td valign="top" class="dot-format">' + arr + '</td>'
+                                    } else {
+                                        html += '<td valign="top" class="dot-format">' + (value.key || '') + '</td>'
+                                    }
+                                } else {
+                                    html += '<td valign="top" class="dot-format">' + (v[key] || '') + '</td>'
+                                }
+                            } catch (erre) {
+                                html += '<td valign="top" class="dot-format">' + (v[key] || '') + '</td>'
+                            }
+                        } else {
+                            html += '<td valign="top" class="dot-format">' + (v[key] || '') + '</td>'
+                        }
+                    }
+                }
+            });
+            html += '</tr>'
+        });
+        document.querySelector('.tableBody').innerHTML = html
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+const OAKMR_mr_nurse_pat_file_index = `
+    alter table oakmr.mr_nurse_pat_file_index add(locking_user varchar2(50));
+    alter table oakmr.mr_nurse_pat_file_index add(locking_date date);
+    comment on column oakmr.mr_nurse_pat_file_index.locking_user is '锁定用户emp_no';
+    comment on column oakmr.mr_nurse_pat_file_index.locking_date is '锁定时间';
+`;

@@ -1,0 +1,163 @@
+// Add/modify columns
+const OAKMR_doctor_group =`
+    alter table oakmr.doctor_group modify doctor_user varchar2(32);
+    alter table oakmr.doctor_group modify super_doctor_id varchar2(32);
+    alter table oakmr.doctor_group modify parent_doctor_id varchar2(32);
+    -- add comments to the columns 
+    comment on column oakmr.doctor_group.doctor_user
+      is '工作人员emp_no,见publicres.staff_dict.emp_no';
+    comment on column oakmr.doctor_group.dept_code
+      is '科室编码,见publicres.dept_dict.dept_code';
+    comment on column oakmr.doctor_group.doctor
+      is '人员姓名';
+    comment on column oakmr.doctor_group.super_doctor_id
+      is '主任医师签字';
+    comment on column oakmr.doctor_group.parent_doctor_id
+      is '上级医师签字';
+`;
+
+// Create/Recreate primary, unique and foreign key constraints
+const OAKMR_hospital_dict= `
+    alter table oakmr.hospital_dict
+      add constraint uk_hospital_dict unique (hospital_name)
+      using index 
+      tablespace tsp_oakmr
+      pctfree 10
+      initrans 2
+      maxtrans 255
+      storage
+      (
+        initial 64k
+        next 1m
+        minextents 1
+        maxextents unlimited
+      );
+`;
+
+// Add/modify columns
+const OAKMR_mr_patient_file_c_r_detail= `
+    alter table oakmr.mr_patient_file_c_r_detail modify patient_id varchar2(32);
+`;
+
+// Add/modify columns
+const OAKMR_mr_patient_file_edit_apply= `
+    alter table oakmr.mr_patient_file_edit_apply modify patient_id varchar2(32);
+`;
+
+// Add/modify columns
+const OAKMR_mr_patient_file_index= `
+    alter table oakmr.mr_patient_file_index modify patient_id varchar2(32);
+    alter table oakmr.mr_patient_file_index add body_height number;
+    alter table oakmr.mr_patient_file_index add table_height number;
+    -- add comments to the columns 
+    comment on column oakmr.mr_patient_file_index.body_height
+      is '病历高度';
+    comment on column oakmr.mr_patient_file_index.table_height
+      is '表格高度';
+`;
+// Create table
+const OAKMR_mr_patient_file_locking= `
+    create table oakmr.mr_patient_file_locking
+    (
+      id              number not null,
+      is_del          number(1) default 0 not null,
+      file_visit_type number not null,
+      one_file_flag   number(2) not null,
+      file_id         varchar2(300),
+      user_id         varchar2(50),
+      operation_time  date,
+      type            number(1)
+    )
+    tablespace tsp_oakmr
+      pctfree 10
+      initrans 1
+      maxtrans 255
+      storage
+      (
+        initial 16k
+        next 8k
+        minextents 1
+        maxextents unlimited
+      );
+    -- add comments to the table 
+    comment on table oakmr.mr_patient_file_locking
+      is '病历锁定记录';
+    -- add comments to the columns 
+    comment on column oakmr.mr_patient_file_locking.id
+      is '编码';
+    comment on column oakmr.mr_patient_file_locking.is_del
+      is '作废标志：0  未删除  1 删除';
+    comment on column oakmr.mr_patient_file_locking.file_visit_type
+      is '文书类型：见oakmr.file_visit_type_dict.id';
+    comment on column oakmr.mr_patient_file_locking.one_file_flag
+      is '打开方式 0是按照病病历打开   1是按照病程打开     2 是护理病历打开';
+    comment on column oakmr.mr_patient_file_locking.file_id
+      is '病历的唯一id,见mr_patient_file_index.id';
+    comment on column oakmr.mr_patient_file_locking.user_id
+      is '锁定/解锁用户';
+    comment on column oakmr.mr_patient_file_locking.operation_time
+      is '操作时间';
+    comment on column oakmr.mr_patient_file_locking.type
+      is '1表示锁定0表示解锁';
+    -- create/recreate primary, unique and foreign key constraints 
+    alter table oakmr.mr_patient_file_locking
+      add constraint pk_mr_patient_file_locking primary key (id)
+      using index 
+      tablespace tsp_oakmr
+      pctfree 10
+      initrans 2
+      maxtrans 255;
+`;
+
+// Add/modify columns
+const OAKMR_mr_template_class= `
+    alter table oakmr.mr_template_class modify one_file_flag not null;
+`;
+
+// Add/modify columns
+const OAKMR_mr_template_content_history= `
+    alter table oakmr.mr_template_content_history add mr_content varchar2(255 char);
+`;
+
+// Add/modify columns
+const OAKMR_synchronous_element_dict= `
+    alter table oakmr.synchronous_element_dict add element_id varchar2(255 char);
+    alter table oakmr.synchronous_element_dict add type varchar2(255 char);
+`;
+
+// Add/modify view
+const OAKMR_oakmr_transfer_rec= `
+    create or replace view oakmr.oakmr_transfer_rec as
+    select d.dept_code, d.dept_name, c.pv_id patient_id, 0 visit_id, d.id
+      from hieip.h_transfer_rec c
+      left join publicres.dept_dict d
+        on c.adm_ward_dept_code = d.id
+     where c.adm_ward_dept_code is not null;
+`;
+
+// Add/modify columns
+const OAKMR_oak_main_complaint= `
+    create or replace view oakmr.oak_main_complaint as
+    select d.id,
+           d.patient_id,
+           d.visit_id,
+           d.hospital_no,
+           d.patient_cur_dept_code,
+           d.content,
+           d.template_small_id
+      from oakmr.mr_patient_file_content_small d,
+           (select s.templet_unique_id
+              from oakmr.mr_templet_small_index s
+              left join oakmr.mr_template_class c
+                on s.mr_class = c.mr_class_code
+              left join (select id
+                          from oakmr.synchronous_element_dict
+                         where synchronous_element_name = '主诉') f
+                on s.synchronous_element_id = f.id
+             where s.is_del = 0
+               and c.is_del = 0
+               and c.one_file_flag = 0 --判断是不是按病历打开
+               and c.mr_class_flag = 2 --判断是不是小模板
+            ) p
+     where d.template_small_id = p.templet_unique_id;
+`;

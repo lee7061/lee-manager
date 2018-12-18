@@ -1,0 +1,130 @@
+const NURSE_h_vd_outp_pats=`
+    create or replace view nurse.h_vd_outp_pats as
+    select a.pv_id,
+           a.visit_no,
+           c.name,
+           c.patient_id,
+           c.sex,
+           (select d.name
+              from hieip.h_charge_type_dict d
+             where d.id = c.charge_type) as charge_type,
+           a.visit_date,
+           a.visit_dept as register_dept,
+           (select d.dept_name
+              from publicres.dept_dict d
+             where d.id = a.visit_dept) as register_dept_name, --就诊科室,由于【转诊】功能修改 h_outp_wait_queue.register_dept,为前端理解,就诊科室与挂号科室互换字段名称
+           nvl(b.doctor, e.doctor_in_charge) as doctor,
+           (select d.name
+              from publicres.staff_dict d
+             where d.id = nvl(b.doctor, e.doctor_in_charge)) as doctor_name,
+           b.register_date,
+           b.register_dept as visit_dept,
+           (select d.dept_name
+              from publicres.dept_dict d
+             where d.id = b.register_dept) as visit_dept_name, --就诊科室,由于【转诊】功能修改 h_outp_wait_queue.register_dept,为前端理解,就诊科室与挂号科室互换字段名称
+           b.worked_indicator,
+           (select sum(d.score_value)
+              from hieip.h_mh_score_record d, hieip.h_mh_triage_record_view d1
+             where d.pv_id = a.pv_id
+               and d.pv_id = d1.pv_id) as score_value,
+           hieip.get_age(c.date_of_birth, sysdate) as age,
+           green_road,
+           a.m_partment,
+           a.m_payment,
+           a.name_phonetic,
+           '门诊' as pat_source,
+           id_no,
+           date_of_birth, --出生日期
+           null as medical_hao, --病案号
+           next_of_kin, --联系人姓名
+           c.next_of_kin_phone,
+           null as relationship, --与联系人的关系
+           0 as visit_id, --住院标识没有为0
+           e.area_id,
+           (select d.name from hieip.h_area_dict d where d.id = e.area_id) as area_name,
+           c.input_code,
+           c.input_code_wb,
+           c.insurance_no, --医保卡号
+           c.insurance_name, --医保卡姓名
+           c.insurance_category, --险种类别,读卡信息,1-医疗保险;2-工伤保险;3-生育保险
+           nvl(c.insurance_type, 1) as insurance_type, --参保类别
+           decode(c.insurance_category,
+                  1,
+                  '医疗保险',
+                  2,
+                  '工伤保险',
+                  3,
+                  '生育保险',
+                  null) as insurance_category_name,
+           c.blockflag, --封锁标志,读卡信息,0:未封锁;1:封锁统筹;2:封锁卡
+           (select nvl(d.act_triage_level, d.auto_triage_level)
+              from hieip.h_mh_triage_record_view d
+             where d.pv_id = c.id) as triage_level,
+           special_diseases,
+           null as medical_category,
+           null as visiting_mark,
+           e.status,
+           (select d.cfz_flag
+              from nurse.h_mh_triage_record_view d
+             where d.pv_id = a.pv_id) as cfz_flag,
+           e.bed_label
+      from hieip.h_clinic_master    a,
+           hieip.h_outp_wait_queue  b,
+           hieip.h_mh_patient_visit c,
+           hieip.h_pat_in_house     e
+     where a.pv_id = b.pv_id
+       and a.pv_id = c.id
+       and a.pv_id = e.pv_id
+       and b.pv_id = c.id
+       and b.pv_id = e.pv_id
+       and c.id = e.pv_id
+       and a.visit_date = b.visit_date
+       and a.visit_date = c.visit_date
+       and a.visit_no = b.visit_no
+       and a.visit_no = c.visit_no
+       and c.is_del = 0;
+    comment on column nurse.h_vd_outp_pats."pv_id" is '患者信息id';
+    comment on column nurse.h_vd_outp_pats."visit_no" is '就诊序号,简称:诊号';
+    comment on column nurse.h_vd_outp_pats."name" is '姓名';
+    comment on column nurse.h_vd_outp_pats."patient_id" is '患者id';
+    comment on column nurse.h_vd_outp_pats."sex" is '性别';
+    comment on column nurse.h_vd_outp_pats."charge_type" is '费别';
+    comment on column nurse.h_vd_outp_pats."visit_date" is '就诊时间';
+    comment on column nurse.h_vd_outp_pats."register_dept" is '挂号科室';
+    comment on column nurse.h_vd_outp_pats."register_dept_name" is '挂号科室名';
+    comment on column nurse.h_vd_outp_pats."doctor" is '医生';
+    comment on column nurse.h_vd_outp_pats."doctor_name" is '医生名';
+    comment on column nurse.h_vd_outp_pats."register_date" is '挂号时间';
+    comment on column nurse.h_vd_outp_pats."visit_dept" is '接诊科室';
+    comment on column nurse.h_vd_outp_pats."visit_dept_name" is '接诊科室名';
+    comment on column nurse.h_vd_outp_pats."worked_indicator" is '初/复诊标示,0-初诊;1-复诊';
+    comment on column nurse.h_vd_outp_pats."score_value" is '分诊总分数,用于患者排序,分数越低，越严重';
+    comment on column nurse.h_vd_outp_pats."age" is '年龄';
+    comment on column nurse.h_vd_outp_pats."green_road" is '绿色通道';
+    comment on column nurse.h_vd_outp_pats."m_partment" is '入院科室';
+    comment on column nurse.h_vd_outp_pats."m_payment" is '入院预交金';
+    comment on column nurse.h_vd_outp_pats."name_phonetic" is '拼音';
+    comment on column nurse.h_vd_outp_pats."pat_source" is '来源';
+    comment on column nurse.h_vd_outp_pats."date_of_birth" is '出生日期';
+    comment on column nurse.h_vd_outp_pats."medical_hao" is '病案号';
+    comment on column nurse.h_vd_outp_pats."next_of_kin" is '联系人姓名';
+    comment on column nurse.h_vd_outp_pats."next_of_kin_phone" is '联系人电话';
+    comment on column nurse.h_vd_outp_pats."relationship" is '与联系人的关系';
+    comment on column nurse.h_vd_outp_pats."visit_id" is '住院标识没有为0';
+    comment on column nurse.h_vd_outp_pats."area_id" is '区域id';
+    comment on column nurse.h_vd_outp_pats."area_name" is '区域名称';
+    comment on column nurse.h_vd_outp_pats."input_code" is '输入码';
+    comment on column nurse.h_vd_outp_pats."input_code_wb" is '五笔码';
+    comment on column nurse.h_vd_outp_pats."insurance_no" is '医保卡号';
+    comment on column nurse.h_vd_outp_pats."insurance_name" is '医保卡姓名';
+    comment on column nurse.h_vd_outp_pats."insurance_category" is '险种类别编码,读卡信息,1-医疗保险;2-工伤保险;3-生育保险';
+    comment on column nurse.h_vd_outp_pats."insurance_type" is '参保类别';
+    comment on column nurse.h_vd_outp_pats."insurance_category_name" is '险种类别名称,读卡信息,1-医疗保险;2-工伤保险;3-生育保险';
+    comment on column nurse.h_vd_outp_pats."blockflag" is '封锁标志,读卡信息,0:未封锁;1:封锁统筹;2:封锁卡';
+    comment on column nurse.h_vd_outp_pats."triage_level" is '分诊级别';
+    comment on column nurse.h_vd_outp_pats."special_diseases" is '特病诊断';
+    comment on column nurse.h_vd_outp_pats."medical_category" is '职工参保类别';
+    comment on column nurse.h_vd_outp_pats."visiting_mark" is '居民特殊就诊标记';
+    comment on column nurse.h_vd_outp_pats."status" is '状态,0:未接诊,1:已接诊,2:结束就诊,3:出科,4:转住院,5:死亡,6:转出(区)';
+    comment on column nurse.h_vd_outp_pats."cfz_flag" is '●初/复诊,0:复诊;1:初诊;2:急诊';
+`;

@@ -1,0 +1,9 @@
+const OAKMR_mr_class_view = `
+    create or replace view oakmr.mr_class_view as
+    select t1.id as file_id ,t.mr_class_code, t.mr_class_name, t1.patient_id, t1.visit_id
+      from oakmr.mr_template_class t
+      join oakmr.mr_patient_file_index t1
+      on t.mr_class_code = t1.mr_class
+      and ( t.is_del= 0 or t.is_del is null)
+      and (t1.is_del =0 or t.is_del is null );
+`;

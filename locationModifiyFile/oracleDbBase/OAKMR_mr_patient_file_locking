@@ -1,0 +1,47 @@
+const NURSE_mr_patient_file_locking = `
+    create table oakmr.mr_patient_file_locking
+    (
+      id              number not null,
+      is_del          number(1) default 0 not null,
+      file_visit_type number not null,
+      one_file_flag   number(2) not null,
+      file_id         varchar2(300),
+      user_id         varchar2(50),
+      operation_time  date,
+      type            number(1)
+    )
+    tablespace tsp_oakmr
+      pctfree 10
+      initrans 1
+      maxtrans 255
+      storage
+      (
+        initial 256
+        next 1
+        minextents 1
+        maxextents unlimited
+      );
+    -- add comments to the table 
+    comment on table oakmr.mr_patient_file_locking
+      is '病历锁定记录';
+    -- add comments to the columns 
+    comment on column oakmr.mr_patient_file_locking.id
+      is '编码';
+    comment on column oakmr.mr_patient_file_locking.is_del
+      is '作废标志：0  未删除  1 删除';
+    comment on column oakmr.mr_patient_file_locking.file_visit_type
+      is '文书类型：见oakmr.file_visit_type_dict.id';
+    comment on column oakmr.mr_patient_file_locking.one_file_flag
+      is '打开方式 0是按照病病历打开   1是按照病程打开     2 是护理病历打开';
+    comment on column oakmr.mr_patient_file_locking.file_id
+      is '病历的唯一id,见mr_patient_file_index.id';
+    comment on column oakmr.mr_patient_file_locking.user_id
+      is '锁定/解锁用户';
+    comment on column oakmr.mr_patient_file_locking.operation_time
+      is '操作时间';
+    comment on column oakmr.mr_patient_file_locking.type
+      is '1表示锁定0表示解锁';
+    -- create/recreate primary, unique and foreign key constraints 
+    alter table oakmr.mr_patient_file_locking
+      add constraint pk_mr_patient_file_locking primary key (id);
+`;

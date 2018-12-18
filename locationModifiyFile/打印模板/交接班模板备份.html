@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>交接班模板备份</title>
+    <style>
+        .jjzx-jz-shift {
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            font-size: 12px;
+            font-family: '宋体';
+        }
+
+        .title {
+            font-size: 16px;
+            font-family: '宋体';
+            text-align: center;
+            line-height: 28px;
+            font-weight: 500;
+        }
+
+        .table-header-tr {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            border: 1px solid #000;
+            border-bottom: 0;
+            box-sizing: border-box;
+        }
+
+        .table-th {
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            text-align: center;
+            font-size: 14px;
+            font-family: '宋体';
+            line-height: 26px;
+            height: 26px;
+            box-sizing: border-box;
+        }
+
+
+        .table-header-tr > div:last-child > .table-th:first-child {
+            border-right: 0;
+        }
+
+        .table-header-tr > .table-th:first-child {
+            border-bottom: 0;
+        }
+
+        .table-header-tr > div > .table-colRow:last-child > .table-th {
+            border-bottom: 0;
+        }
+
+        .table-header-tr > div:last-child > .table-colRow > .table-th:last-child {
+            border-right: 0;
+        }
+
+        .table-colRow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .table-colRow > div {
+            flex: 1;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        td {
+            border: 1px solid #000;
+            word-break: break-all;
+            white-space: pre-line;
+            line-height: 26px;
+            height: 26px;
+        }
+
+        thead td {
+            text-align: center;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .top {
+            vertical-align: top;
+            text-align: left;
+        }
+
+        .table-body {
+            border: 1px solid #000;
+            border-bottom: 0;
+        }
+
+        .table-body-row {
+            display: flex;
+        }
+
+        .table-td {
+            display: flex;
+            align-items: center;
+            font-family: '宋体';
+            line-height: 26px;
+            height: 26px;
+            font-size: 14px;
+            box-sizing: border-box;
+            border-right: 1px solid #000;
+            border-bottom: 1px solid #000;
+            padding: 1px;
+        }
+
+        .table-body > .table-body-row > .table-td:first-child {
+            width: 100px;
+            height: inherit;
+            justify-content: center;
+        }
+
+        .table-body > .table-body-row:last-child .table-td:last-child, .table-body > .table-body-row:last-child > .table-td {
+            border-bottom: 0;
+        }
+
+        .table-body > .table-body-row > .table-smallRow:last-child .table-td {
+            border-right: 0;
+        }
+    </style>
+</head>
+<body>
+<div class="jjzx-jz-shift">
+    <div class="print-header title">急诊科病室交班报告</div>
+    <div class="dot-format" id="divTable">
+
+    </div>
+    <table id="data" class="dot-format ">
+        <colgroup>
+            <col class="dot-format" width="100"/>
+        </colgroup>
+        <!--<tfoot>-->
+        <!--<tr>-->
+        <!--<% for(let i=0;i<=classesDict.length;i++){%>-->
+        <!--<td class="dot-format"></td>-->
+        <!--<%}%>-->
+        <!--</tr>-->
+        <!--</tfoot>-->
+    </table>
+</div>
+
+<script>
+    let data = {
+        "classesDict": [{
+            "id": 102,
+            "classesName": "白班",
+            "classesCode": "BB010:08:00",
+            "type": 0,
+            "timeFrom1": "0:08:00",
+            "timeTo1": "0:16:00",
+            "isTwoTime": 0,
+            "isVacation": 0,
+            "isTransfer": 1,
+            "classesInputCode": "BB",
+            "classesInputCodeWb": "RG",
+            "occurrenceNumber": 1,
+            "sumTime": "8",
+            "isDel": 0,
+            "serialNo": 1,
+            "classesSpecial": 0,
+            "isShowHandover": 1,
+            "dayOne": "0",
+            "dayThree": "0",
+            "timeOne": "08:00",
+            "timeThree": "16:00"
+        }, {
+            "id": 103,
+            "classesName": "中班",
+            "classesCode": "ZB010:16:00",
+            "type": 0,
+            "timeFrom1": "0:16:00",
+            "timeTo1": "1:00:00",
+            "isTwoTime": 0,
+            "classesExplain": "1",
+            "isVacation": 0,
+            "isTransfer": 1,
+            "classesInputCode": "ZB",
+            "classesInputCodeWb": "KG",
+            "occurrenceNumber": 1,
+            "sumTime": "8",
+            "isDel": 0,
+            "serialNo": 2,
+            "classesSpecial": 0,
+            "isShowHandover": 1,
+            "dayOne": "0",
+            "dayThree": "1",
+            "timeOne": "16:00",
+            "timeThree": "00:00"
+        }, {
+            "id": 104,
+            "classesName": "夜班",
+            "classesCode": "YB011:00:00",
+            "type": 0,
+            "timeFrom1": "1:00:00",
+            "timeTo1": "1:08:00",
+            "isTwoTime": 0,
+            "isVacation": 0,
+            "isTransfer": 1,
+            "classesInputCode": "YB",
+            "classesInputCodeWb": "YG",
+            "occurrenceNumber": 1,
+            "sumTime": "8",
+            "isDel": 0,
+            "serialNo": 3,
+            "classesSpecial": 0,
+            "dayOne": "1",
+            "dayThree": "1",
+            "timeOne": "00:00",
+            "timeThree": "08:00"
+        }],
+        "shiftDate": [{
+            "patientId": "18120711002",
+            "visitId": 0,
+            "name": "陈一帆",
+            "action": "特级",
+            "className": "白班",
+            "sex": 1,
+            "age": "56岁",
+            "viewNo": "L1800783",
+            "diagnosis": "机化性肺炎",
+            "dischargeDateTime": "2018-12-14T08:16:22Z",
+            "admissionDateTime": "2018-12-07T06:27:02Z",
+            "bedNo": "红区",
+            "102": "大神阿斯蒂芬请问(交班者:xxk)"
+        }],
+        "titleData": [{
+            "sum": 2,
+            "yjbr": 0,
+            "ejbr": 0,
+            "brzs": 4,
+            "drg": 0,
+            "sy": 0,
+            "classes": "白班",
+            "outPatient": "[]"
+        }, {"classes": "中班", "outPatient": "[]"}, {"classes": "夜班", "outPatient": "[]"}],
+        "time": "2018-12-17",
+        "title": [{"dataIndex": "classes", "title": "班段", "key": 0, "isPrint": 0}, {
+            "dataIndex": "sum",
+            "title": "抢救室",
+            "key": 1,
+            "isPrint": 1
+        }, {"dataIndex": "yjbr", "title": "Ⅰ级", "key": 10, "isPrint": 1}, {
+            "dataIndex": "ejbr",
+            "title": "Ⅱ级",
+            "key": 11,
+            "isPrint": 1
+        }, {"dataIndex": "brzs", "title": "留观", "key": 7, "isPrint": 1}, {
+            "dataIndex": "drg",
+            "title": "新入",
+            "key": 19,
+            "isPrint": 1
+        }, {"dataIndex": "sy", "title": "输液", "key": 24, "isPrint": 1}]
+    }
+
+    /**
+     * 数据格式化行列
+     * @param data 总数据
+     * @param num
+     */
+    function formatData(data, num) {
+        let arr = []
+        for (let i = 0; i < data.length; i++) {
+            const dataElement = data[i]
+            const col = i % num
+            const row = Math.floor(i / num)
+            if (col === 0) {
+                arr[row] = []
+            }
+            if (col < num) {
+                arr[row].push(dataElement)
+            }
+        }
+        return arr
+    }
+
+    function initHeaderHtml(time, classesDict, titleData, title) {
+        // 去除班段
+        for (let i = 0; i < title.length; i++) {
+            const titleDatum = title[i];
+            if (titleDatum.dataIndex === 'classes' && titleDatum.title === '班段') title.splice(i, 1);
+            break;
+        }
+        //  显示项目个数
+        const num = 3;
+        // 检查项目划分
+        const titleArray = formatData(title, num);
+        // 行列合并的高度
+        const rowHeight = 26 * (titleArray.length + 1);
+        //  时间框的html
+        const timeHtml = '<div class="table-th dot-format" style="height: ' + rowHeight + 'px;' +
+            'line-height:' + rowHeight + 'px;width: 100px">' + time + '</div>';
+        //  班段列html
+        let allHtml = '';
+        //  循环班段
+        for (let i = 0; i < classesDict.length; i++) {
+            const classElem = classesDict[i];
+            let classHtml = '';
+            // 班段
+            classHtml += '<div class="table-th dot-format">' + classElem.classesName + '</div>';
+            // 查找当前班段的值
+            const classItemValue = titleData.find((v) => v.classes === classElem.classesName);
+            let rowHtml = '';
+            for (let j = 0; j < titleArray.length; j++) {
+                const titleDatum = titleArray[j];
+                let itemHtml = '';
+                for (let k = 0; k < titleDatum.length; k++) {
+                    const titleDatum1 = titleDatum[k];
+                    itemHtml += '<div class="table-th dot-format">' + titleDatum1.title + '</div>';
+                    itemHtml += '<div class="table-th dot-format table-value">' + (classItemValue[titleDatum1.dataIndex] || '') + '</div>';
+                }
+                rowHtml += '<div class="table-colRow dot-format">' + itemHtml + '</div>';
+            }
+            allHtml += '<div style="flex: ' + (num * 2) + '" class="dot-format">' + classHtml + rowHtml + '</div>';
+        }
+        let rowHtml = '<div class="table-header-tr dot-format">' + timeHtml + allHtml + '</div>';
+        // 写死的出院病危
+        // let items=['出院','病危']
+        // let itemHtml=''
+        // for (let i = 0; i < items.length; i++) {
+        //     const item = items[i];
+        //     let outHospital=''
+        //     for (let j = 0; j < classesDict.length; j++) {
+        //         outHospital+='<div class="table-smallRow dot-format" style="flex:' + (num * 2) + '">' +
+        //             '<div class="table-td dot-format">人数:0人</div>' +
+        //             '<div class="table-td dot-format"></div>' +
+        //             '</div>'
+        //     }
+        //     itemHtml+='<div class="table-body-row dot-format">' +
+        //         '<div class="table-td dot-format">'+item+'</div>'+outHospital+'</div>'
+        // }
+        // rowHtml+='<div class="table-body  dot-format">'+itemHtml+'</div>'
+        document.querySelector('#divTable').innerHTML = rowHtml;
+    }
+
+    // 初始化第二部分
+    function initData(time, classesDict, shiftDate) {
+        // tHeader 多了班段信息
+        // var headerHtml = '';
+        // headerHtml += '<td>' + time + '</td>';
+        // for (var a = 0; a < classesDict.length; a++) {
+        //     headerHtml += '<td>' + classesDict[a].classesName + '</td>';
+        // }
+        var tbodyHtml = "";
+        for (var n = 0; n < shiftDate.length; n++) {
+            var d = shiftDate[n];
+            tbodyHtml += '<tr>' +
+                '<td class="dot-format center">' + (d.name ? d.name : '') + '</td>';
+            for (var a = 0; a < classesDict.length; a++) {
+                tbodyHtml += '<td class="dot-format top" rowspan="5">' + (d[classesDict[a].id] ? d[classesDict[a].id] : '') + '</td>';
+            }
+            tbodyHtml += '</tr>' +
+                '<tr><td class="dot-format center">' + (d.bedNo ? d.bedNo : '') + '</td></tr>' +
+                '<tr><td class="dot-format center">' + (d.diagnosis ? d.diagnosis : '') + '</td></tr>' +
+                '<tr><td class="dot-format center">' + (d.action ? d.action : '') + '</td></tr>' +
+                '<tr><td class="dot-format center"></td></tr>';
+        }
+        // document.getElementById('data').innerHTML += '<thead><tr>' + headerHtml + '</tr></thead>' + '<tbody>' + tbodyHtml + '</tbody>';
+        document.getElementById('data').innerHTML +='<tbody>' + tbodyHtml + '</tbody>';
+    }
+
+    initHeaderHtml(data.time, data.classesDict, data.titleData, data.title);
+    initData(data.time, data.classesDict, data.shiftDate);
+</script>
+</body>
+</html>

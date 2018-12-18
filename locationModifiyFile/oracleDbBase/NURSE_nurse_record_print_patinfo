@@ -1,0 +1,66 @@
+const NURSE_nurse_record_print_patinfo = `
+    create or replace view nurse.nurse_record_print_patinfo as
+    select (select k.dept_name
+              from publicres.dept_dict k
+             where k.dept_code = t1.dept_code) as "deptname",
+           t.name as "name",
+           case
+             when t1.bed_label = '-1' or t1.bed_label is null then
+              (select distinct first_value(x.discharge_bed_label) over(order by x.operator_date_time desc)
+                 from hieip.h_transfer_rec x
+                where x.pv_id = t.id)
+             else
+              t1.bed_label
+           end as "bedno",
+           (select tt.diagnosis_desc
+              from hieip.h_diagnosis tt
+             where tt.pv_id = t1.pv_id
+               and tt.is_main_diagnosis = 1) as "diagnosis",
+           '' as "inpno",
+           oakmr.get_age(t.date_of_birth, sysdate) as "age",
+           decode(t.sex, 1, '男', 2, '女', t.sex) as "sex",
+           to_char(t1.pv_id) as "patientid",
+           0 as visit_id,
+           to_char(t1.pv_id) patient_id,
+           t1.view_no as "viewno",
+           to_char(t1.admission_date_time, 'yyyy-mm-dd') as "admissiondatetime",
+           (select distinct first_value(to_char(tt.content)) over(order by tt.content_date_time desc)
+              from oakmr.mr_patient_file_content_small tt,
+                   oakmr.mr_templet_small_index        tt1
+             where tt1.templet_unique_id = tt.template_small_id
+               and tt.is_del = 0
+               and tt1.is_del = 0
+               and tt1.mr_name = '主诉'
+               and tt.patient_id = to_char(t1.pv_id)) as "maincomplaint",
+           to_char(t1.adm_ward_date_time, 'yyyy-mm-dd hh24:mi:ss') as "admwarddatetime",
+           case
+             when to_char(t1.adm_ward_date_time, 'yyyy-mm-dd hh24:mi:ss') >
+                  (select distinct first_value(to_char(x.discharge_date_time,
+                                                       'yyyy-mm-dd hh24:mi:ss')) over(order by x.operator_date_time desc)
+                     from hieip.h_transfer_rec x
+                    where x.pv_id = t.id) then
+              null
+             else
+              (select distinct first_value(to_char(x.discharge_date_time,
+                                                   'yyyy-mm-dd hh24:mi:ss')) over(order by x.operator_date_time desc)
+                 from hieip.h_transfer_rec x
+                where x.pv_id = t.id)
+           end as "diswarddatetime",
+           to_char(sysdate, 'yyyy"年"mm"月"dd"日"') "datetime"
+      from hieip.h_mh_patient_visit t, hieip.h_pat_in_house t1
+     where t.id = t1.pv_id;
+    comment on column nurse.nurse_record_print_patinfo."deptname" is '科室名称';
+    comment on column nurse.nurse_record_print_patinfo."name" is '患者姓名';
+    comment on column nurse.nurse_record_print_patinfo."bedno" is '床号';
+    comment on column nurse.nurse_record_print_patinfo."diagnosis" is '主诊断';
+    comment on column nurse.nurse_record_print_patinfo."inpno" is '住院号';
+    comment on column nurse.nurse_record_print_patinfo."age" is '年龄';
+    comment on column nurse.nurse_record_print_patinfo."sex" is '性别';
+    comment on column nurse.nurse_record_print_patinfo."patientid" is '患者id';
+    comment on column nurse.nurse_record_print_patinfo."viewno" is '留观号';
+    comment on column nurse.nurse_record_print_patinfo."admissiondatetime" is '入院时间';
+    comment on column nurse.nurse_record_print_patinfo."maincomplaint" is '主诉/病情';
+    comment on column nurse.nurse_record_print_patinfo."admwarddatetime" is '入观时间';
+    comment on column nurse.nurse_record_print_patinfo."diswarddatetime" is '出观时间';
+    comment on column nurse.nurse_record_print_patinfo."datetime" is '当前时间';
+`;

@@ -1,0 +1,77 @@
+const OAKMR_oak_mr_pat_master_index = `
+    create or replace view oakmr.oak_mr_pat_master_index as
+    select a.hospital_code as hsp_code,
+           '' as update_time,
+           '' as e_name,
+           '' as vip_no,
+           '' as id_type,
+           '' as foreign_language,
+           '' as mother_language,
+           '' as religion,
+           '' as race,
+           '' as degree,
+           a.register_from as patient_class,
+           (select t.name
+              from hieip.h_patient_status_dict t
+             where t.code = a.register_from) patient_class_name,
+           a.photo,
+           '' as business_zip_code,
+           '' as service_agency,
+           '' as operator,
+           '' as create_date,
+           a.identity as vip_indicator,
+           '' as last_visit_date,
+           a.next_of_kin as next_of_kin_phone,
+           '' as next_of_kin_zip_code,
+           a.mailing_address as next_of_kin_addr,
+           '' as relationship,
+           '' as relationship_name,
+           a.next_of_kin,
+           '' as phone_number_business,
+           a.phone_number_home,
+           a.zip_code,
+           a.mailing_address,
+           a.unit_in_contract,
+           a.charge_type,
+           a.identity,
+           a.id_no,
+           a.nation,
+           a.citizenship,
+           (select name from hieip.h_country_dict where id = a.citizenship) citizenship_name,
+           a.mailing_address as birth_place,
+           a.date_of_birth,
+           a.sex,
+           a.name_phonetic,
+           a.name,
+           '' as inp_no,
+           to_char(a.id) as patient_id,
+           a.health_card,
+           '' as jiguan,
+           '' as home_zip,
+           a.patient_id as his_patient_id
+      from hieip.h_mh_patient_visit a
+      where a.is_del = 0;
+    comment on column oakmr.oak_mr_pat_master_index.hsp_code is '医院编码';
+    comment on column oakmr.oak_mr_pat_master_index.patient_class is '病情状态编码';
+    comment on column oakmr.oak_mr_pat_master_index.patient_class_name is '病情状态名称';
+    comment on column oakmr.oak_mr_pat_master_index.vip_indicator is '身份';
+    comment on column oakmr.oak_mr_pat_master_index.next_of_kin_phone is '联系人电话';
+    comment on column oakmr.oak_mr_pat_master_index.next_of_kin_addr is '联系人地址';
+    comment on column oakmr.oak_mr_pat_master_index.phone_number_home is '家庭电话';
+    comment on column oakmr.oak_mr_pat_master_index.zip_code is '邮编';
+    comment on column oakmr.oak_mr_pat_master_index.mailing_address is '邮箱地址';
+    comment on column oakmr.oak_mr_pat_master_index.charge_type is '付费方式';
+    comment on column oakmr.oak_mr_pat_master_index.id_no is '身份证';
+    comment on column oakmr.oak_mr_pat_master_index.nation is '民族';
+    comment on column oakmr.oak_mr_pat_master_index.citizenship is '国家编码';
+    comment on column oakmr.oak_mr_pat_master_index.citizenship_name is '国家';
+    comment on column oakmr.oak_mr_pat_master_index.birth_place is '地址';
+    comment on column oakmr.oak_mr_pat_master_index.date_of_birth is '生日';
+    comment on column oakmr.oak_mr_pat_master_index.sex is '性别';
+    comment on column oakmr.oak_mr_pat_master_index.name_phonetic is '姓名拼音';
+    comment on column oakmr.oak_mr_pat_master_index.name is '姓名';
+    comment on column oakmr.oak_mr_pat_master_index.inp_no is '住院号';
+    comment on column oakmr.oak_mr_pat_master_index.patient_id is '分诊患者id';
+    comment on column oakmr.oak_mr_pat_master_index.health_card is '健康卡号';
+    comment on column oakmr.oak_mr_pat_master_index.his_patient_id is 'his患者id';
+`;

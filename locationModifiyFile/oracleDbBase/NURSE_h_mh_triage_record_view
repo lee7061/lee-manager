@@ -1,0 +1,33 @@
+const NURSE_h_mh_triage_record_view=`
+    create or replace view nurse.h_mh_triage_record_view as
+    select "id",
+           "pv_id",
+           "triage_date",
+           "triage_by",
+           "triage_target",
+           "other_triage_target",
+           "act_triage_level",
+           "auto_triage_level",
+           "triage_memo",
+           "has_vital_sign",
+           "has_score_record",
+           "has_according_record",
+           "start_record_date",
+           "change_level",
+           "crb_flag",
+           "is_del",
+           "hospital_code",
+           "area_id",
+           "triage_target_direction",
+           "cfz_flag",
+           "me_id",
+           "post_json",
+           "time_key",
+           "time_value",
+           "group_no",
+           "discharge_date_time"
+      from hieip.h_mh_triage_record a
+     where a.triage_date = (select max(x.triage_date)
+                              from hieip.h_mh_triage_record x
+                             where x.pv_id = a.pv_id);
+`;

@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>排班模板备份</title>
+    <style>
+        .scheduling {
+            width: 100%;
+            height: 100%;
+            font-size: 14px;
+            margin: auto
+        }
+
+        .content {
+            width: 100%;
+            border: 1px solid #000;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        td {
+            border: 1px solid #000;
+            padding: 0;
+            text-align: center
+        }
+
+        .scheduling_tBody {
+            line-height: 25px
+        }
+
+        .tableTitle tr:nth-of-type(1) {
+            font-weight: bold;
+            font-size: 16px
+        }
+
+        .userName {
+            text-align: right;
+            padding-right: 5px
+        }
+
+        #masterRemarks {
+            width: 100%;
+            height: 100%;
+            white-space: pre-line;
+            text-align: left;
+            margin: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<div class='scheduling'>
+    <div class="print-header dot-format">
+    </div>
+    <table class='content'>
+        <thead class='tableTitle'>
+        <tr>
+            <td id='date' class="dot-format">
+            </td>
+            <td colspan='4' id='deptName'>
+                急诊科
+            </td>
+            <td id='schedulingName'>
+                排班表
+            </td>
+        </tr>
+        <tr>
+            <td id='personInfo'>
+                人员信息
+            </td>
+            <td colspan='7' id="schedulingDate">
+                日期
+            </td>
+        </tr>
+        <tr>
+            <td rowspan='2'>
+                序号
+            </td>
+            <td id='grouping' rowspan='2'>
+                分组
+            </td>
+            <td rowspan='2'>
+                姓名
+            </td>
+            <td rowspan='2'>
+                层级
+            </td>
+            <td rowspan='2'>
+                职务
+            </td>
+        </tr>
+        </thead>
+        <tbody class='scheduling_tBody dot-format'>
+        </tbody>
+    </table>
+    <div id='masterRemarks' class="dot-format">
+    </div>
+</div>
+<script>
+    let data = {
+        "nurseName": "急诊",
+        "schedulingSpecial": [
+            {
+                "itemName": "二线",
+                "time1": "蔡娟",
+                "time2": "陈萍",
+                "time3": "陈辰",
+                "time4": "邓钱",
+                "time5": "成小琴",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " "
+            },
+            {
+                "itemName": "三线",
+                "time1": "蔡娟3",
+                "time2": "陈萍3",
+                "time3": "陈辰3",
+                "time4": "邓钱3",
+                "time5": "成小琴3",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " "
+            }
+        ],
+        "statisticsItems": [],
+        "dayDate": [
+            {
+                "day": "星期一",
+                "time": "2018-12-02T16:00:00Z",
+                "time1": "2018-12-03",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期二",
+                "time": "2018-12-03T16:00:00Z",
+                "time1": "2018-12-04",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期三",
+                "time": "2018-12-04T16:00:00Z",
+                "time1": "2018-12-05",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期四",
+                "time": "2018-12-05T16:00:00Z",
+                "time1": "2018-12-06",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期五",
+                "time": "2018-12-06T16:00:00Z",
+                "time1": "2018-12-07",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期六",
+                "time": "2018-12-07T16:00:00Z",
+                "time1": "2018-12-08",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期日",
+                "time": "2018-12-08T16:00:00Z",
+                "time1": "2018-12-09",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期一",
+                "time": "2018-12-09T16:00:00Z",
+                "time1": "2018-12-10",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期二",
+                "time": "2018-12-10T16:00:00Z",
+                "time1": "2018-12-11",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期三",
+                "time": "2018-12-11T16:00:00Z",
+                "time1": "2018-12-12",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期四",
+                "time": "2018-12-12T16:00:00Z",
+                "time1": "2018-12-13",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期五",
+                "time": "2018-12-13T16:00:00Z",
+                "time1": "2018-12-14",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期六",
+                "time": "2018-12-14T16:00:00Z",
+                "time1": "2018-12-15",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }, {
+                "day": "星期日",
+                "time": "2018-12-15T16:00:00Z",
+                "time1": "2018-12-16",
+                "firstDay": "2018-12-03",
+                "lastDay": "2018-12-16",
+                "configDay": 14,
+                "otherValue": "2018-01-01"
+            }
+        ],
+        "schedulingIndex": [
+            {
+                "userId": "10950",
+                "userName": "{\"name\":\"廖晨锦\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊留观\",\"rowspan\":4,\"colspan\":1}",
+                "time1": " ",
+                "time2": "中班,夜班",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": "白班,夜班",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "40"
+            }, {
+                "userId": "124651",
+                "userName": "{\"name\":\"张培\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊留观\",\"rowspan\":4,\"colspan\":1}",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "40"
+            }, {
+                "userId": "10318",
+                "userName": "{\"name\":\"廖玉华\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊留观\",\"rowspan\":4,\"colspan\":1}",
+                "time1": "中班,夜班",
+                "time2": " ",
+                "time3": "中班",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": "中班,夜班",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "40"
+            }, {
+                "userId": "124615",
+                "userName": "{\"name\":\"王弘妍\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊留观\",\"rowspan\":4,\"colspan\":1}",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": "白班,中班",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "40"
+            }, {
+                "userId": "10961",
+                "userName": "{\"name\":\"王娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "nurseLevel": "1",
+                "title": "组长",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": "中班,夜班",
+                "time6": " ",
+                "time7": "中班,夜班",
+                "time8": " ",
+                "time9": " ",
+                "time10": "中班,夜班",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "123913",
+                "userName": "{\"name\":\"任娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "nurseLevel": "1",
+                "title": "组员",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "124694",
+                "userName": "{\"name\":\"蔡娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "title": "组员",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "10806",
+                "userName": "{\"name\":\"石娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "title": "组员",
+                "time1": "白班",
+                "time2": "中班",
+                "time3": "白班",
+                "time4": "中班,夜班",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": "白班,中班,夜班",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "123977",
+                "userName": "{\"name\":\"向娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "title": "组员",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": "中班,夜班",
+                "time7": " ",
+                "time8": "中班,夜班",
+                "time9": "中班",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "123822",
+                "userName": "{\"name\":\"郭娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "title": "组员",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": "中班",
+                "time5": "中班,夜班",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "124176",
+                "userName": "{\"name\":\"陈娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "title": "组员",
+                "time1": "中班",
+                "time2": "中班",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": "白班,中班,夜班",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "124653",
+                "userName": "{\"name\":\"李娟\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"急诊门诊\",\"rowspan\":8,\"colspan\":1}",
+                "nurseLevel": "1",
+                "title": "组员",
+                "time1": " ",
+                "time2": " ",
+                "time3": " ",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": "中班,夜班",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "41"
+            }, {
+                "userId": "124363",
+                "userName": "{\"name\":\"郑潇晓\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"常白班\",\"rowspan\":6,\"colspan\":1}",
+                "time1": "白班,常白班",
+                "time2": "常白班",
+                "time3": " ",
+                "time4": "常白班",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": "白班,常白班",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "46"
+            }, {
+                "userId": "124236",
+                "userName": "{\"name\":\"肖潇jzf\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"常白班\",\"rowspan\":6,\"colspan\":1}",
+                "time1": "常白班",
+                "time2": "常白班",
+                "time3": "常白班",
+                "time4": "常白班",
+                "time5": " ",
+                "time6": "白班,常白班",
+                "time7": "白班,常白班",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "46"
+            }, {
+                "userId": "124382",
+                "userName": "{\"name\":\"罗潇潇\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"常白班\",\"rowspan\":6,\"colspan\":1}",
+                "time1": "白班",
+                "time2": " ",
+                "time3": "白班,常白班",
+                "time4": " ",
+                "time5": "常白班",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "46"
+            }, {
+                "userId": "10743",
+                "userName": "{\"name\":\"肖潇\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"常白班\",\"rowspan\":6,\"colspan\":1}",
+                "time1": "白班,常白班",
+                "time2": " ",
+                "time3": " ",
+                "time4": "常白班",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": "常白班",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "46"
+            }, {
+                "userId": "124187",
+                "userName": "{\"name\":\"肖潇ny\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"常白班\",\"rowspan\":6,\"colspan\":1}",
+                "time1": "白班,常白班",
+                "time2": "白班",
+                "time3": " ",
+                "time4": "常白班",
+                "time5": "白班",
+                "time6": "白班",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "46"
+            }, {
+                "userId": "10716",
+                "userName": "{\"name\":\"钟欣\",\"rowspan\":1,\"colspan\":1}",
+                "col1": "{\"name\":\"常白班\",\"rowspan\":6,\"colspan\":1}",
+                "time1": " ",
+                "time2": "白班",
+                "time3": "白班,常白班",
+                "time4": " ",
+                "time5": " ",
+                "time6": " ",
+                "time7": " ",
+                "time8": " ",
+                "time9": " ",
+                "time10": " ",
+                "time11": " ",
+                "time12": " ",
+                "time13": " ",
+                "time14": " ",
+                "groupId": "46"
+            }
+        ],
+        "schedulingMaster": {
+            "id": 5,
+            "wardCode": "06",
+            "timeFrom": "2018-12-02T16:00:00Z",
+            "timeTo": "2018-12-15T16:00:00Z",
+            "createTime": "2018-12-06T06:17:06Z",
+            "createStaffId": "70017001",
+            "isDel": 0,
+            "updateTime": "2018-12-12T08:36:49Z",
+            "updateStaffId": "70017001",
+            "remarks": "这是一个其他的排班注意事项"
+        }
+    }
+    if (data.schedulingMaster && data.schedulingMaster.remarks) {
+        document.getElementById('masterRemarks').innerHTML = data.schedulingMaster.remarks
+    }
+    console.log(data, 'data')
+    const date = new Date(data.date);
+    document.getElementById('date').innerHTML = date.getFullYear();
+
+    function initStatisticsItems(statisticsItems) {
+        let html = '';
+        for (let n = 0; n < statisticsItems.length; n++) {
+            html += '<td rowspan="3">' + statisticsItems[n].itemName + '</td>'
+        }
+        document.querySelector('.tableTitle tr:nth-of-type(2)').innerHTML += html
+    }
+
+    function initDayDate(dayDate) {
+        let html1 = '';
+        let html2 = '';
+        for (let n = 0; n < dayDate.length; n++) {
+            let time = new Date(dayDate[n].time1);
+            html1 += '<td>' + (time.getMonth() + 1) + '月' + time.getDate() + '日</td>';
+            html2 += '<td>' + dayDate[n].day + '</td>'
+        }
+        document.querySelector('.tableTitle tr:nth-of-type(3)').innerHTML += html1;
+        document.querySelector('.tableTitle').innerHTML += '<tr>' + html2 + '</tr>'
+    }
+
+    let maxCol = 1;
+    let col1 = '';
+    let col2 = '';
+    let col3 = '';
+    let timeKey = []
+
+    function initTbody(schedulingIndex, statisticsItems, schedulingSpecial) {
+        let html = '';
+        let timeLen
+        for (let n = 0; n < schedulingIndex.length; n++) {
+            let d = schedulingIndex[n];
+            if (n === 0) {
+                timeLen = Object.keys(d)
+                for (let i = 0; i < timeLen.length; i++) {
+                    if (/^time/.test(timeLen[i])) {
+                        timeKey.push(timeLen[i])
+                    }
+                }
+            }
+            html += '<tr><td>' + (n + 1) + '</td>';
+            if (col1 != d.col1 && d.col1) {
+                let _col1 = JSON.parse(d.col1);
+                html += '<td colspan="' + _col1.colspan + '" rowspan="' + _col1.rowspan + '">' + _col1.name + '</td>'
+            }
+            if (col2 != d.col2 && d.col2) {
+                let _col2 = JSON.parse(d.col2);
+                html += '<td colspan="' + _col2.colspan + '" rowspan="' + _col2.rowspan + '">' + _col2.name + '</td>';
+                if (maxCol < 2) maxCol = 2
+            }
+            if (col3 != d.col3 && d.col3) {
+                let _col3 = JSON.parse(d.col3);
+                html += '<td colspan=""' + _col3.colspan + '" rowspan="' + _col3.rowspan + '">' + _col3.name + '</td>';
+                maxCol = 3
+            }
+            let _userName = JSON.parse(d.userName);
+            html += '<td class="userName" colspan="' + _userName.colspan + '" rowspan="' + _userName.rowspan + '">' + _userName.name + '</td>';
+            html += '<td>' + (d.nurseLevel ? d.nurseLevel : '') + '</td><td>' + (d.title ? d.title : '') + '</td>';
+            for (let i = 0; i < timeKey.length; i++) {
+                html += '<td>' + d[timeKey[i]] + '</td>'
+            }
+            for (let n = 0; n < statisticsItems.length; n++) {
+                html += '<td>' + d[statisticsItems[n].itemCode] + '</td>'
+            }
+            col1 = d.col1;
+            col2 = d.col2;
+            col3 = d.col3
+        }
+        //  二线html渲染
+        let spacialHtml = '';
+        let keys
+        for (let i = 0; i < schedulingSpecial.length; i++) {
+            const specialElement = schedulingSpecial[i];
+            if (i === 0) keys = Object.keys(specialElement)
+            let rowHtml = '<tr>'
+            for (let j = 0; j < keys.length; j++) {
+                const key = keys[j];
+                if (j === 0) rowHtml += '<td class="dot-format" colspan="5">' + (specialElement[key] || '') + '</td>'
+                else rowHtml += '<td class="dot-format">' + (specialElement[key] || '') + '</td>'
+            }
+            rowHtml += '</tr>'
+            spacialHtml += rowHtml
+        }
+        document.querySelector('.scheduling_tBody').innerHTML = html + spacialHtml
+    }
+
+    function initWidth() {
+        let html = '<col width="40" class="dot-format"/>';
+        for (let n = 1; n <= maxCol; n++) {
+            html += '<col width="60" class="dot-format" />'
+        }
+        html += '<col width="70" class="dot-format"/><col width="40" class="dot-format"/><col width="90" class="dot-format"/>';
+        document.querySelector('.content').innerHTML += html
+    }
+
+    initStatisticsItems(data.statisticsItems);
+    initDayDate(data.dayDate);
+    initTbody(data.schedulingIndex, data.statisticsItems, data.schedulingSpecial);
+    document.getElementById('personInfo').setAttribute('colspan', 4 + maxCol);
+    document.getElementById('date').setAttribute('colspan', 4 + maxCol);
+    document.getElementById('deptName').innerHTML = data.nurseName;
+    document.getElementById('grouping').setAttribute('colspan', maxCol);
+    let colspan = (timeKey.length + data.statisticsItems.length) % 2
+    let flag = false
+    if (colspan === 0) {
+        flag = true
+        colspan = (timeKey.length + data.statisticsItems.length) / 2
+    } else {
+        flag = false
+        colspan = Math.ceil((timeKey.length + data.statisticsItems.length) / 2)
+    }
+    document.getElementById('schedulingName').setAttribute('colspan', flag ? colspan : colspan - 1);
+    document.getElementById('schedulingDate').setAttribute('colspan', (timeKey.length + data.statisticsItems.length));
+    document.getElementById('deptName').setAttribute('colspan', colspan);
+    initWidth();
+</script>
+</body>
+</html>

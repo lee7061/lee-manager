@@ -1,0 +1,123 @@
+const OAKMR_oak_mr_pats_in_hospital = `
+    create or replace view oakmr.oak_mr_pats_in_hospital as
+    select null as hsp_code,
+           null as update_time,
+           null as is_newborn,
+           null as lend_indicator,
+           null as dept_code_lend,
+           null as bed_ward_code,
+           null as bed_dept_code,
+           null as lend_bed_no,
+           null as settled_indicator,
+           null as bill_checked_date_time,
+           null as guarantor_phone_num,
+           null as guarantor_org,
+           null as guarantor,
+           null as total_charges,
+           null as total_costs,
+           null as prepayments,
+           null as billing_date_time,
+           a.operator_date_time as operating_date,
+           a.doctor_in_charge,
+           c.diagnosis_code as diagnosis,
+           c.diagnosis_desc as diagnosis_name,
+           a.adm_ward_date_time,
+           a.discharge_date_time,
+           a.admission_date_time,
+           decode(a.bed_label, '-1', null, a.bed_label) as bed_no,
+           a.dept_code,
+           (select x.dept_name
+              from publicres.dept_dict x
+             where x.id = a.dept_code
+               and (x.is_del = 0 or x.is_del is null)) dept_name,
+           a.area_id,
+           (select id
+              from hieip.h_area_dict
+             where id = a.area_id
+               and is_del = 0) as ward_code,
+           (select name
+              from hieip.h_area_dict
+             where id = a.area_id
+               and is_del = 0) as ward_name,
+           0 visit_id,
+           a.pv_id as patient_id,
+           b.patient_id as his_patient_id,
+           a.view_no,
+           (select name
+              from publicres.staff_dict aa
+             where aa.id = a.nurse_in_charge
+               and aa.is_del = 0) duty_nurse_name,
+           a.patient_status,
+           (select d.code
+              from hieip.h_patient_status_dict d
+             where d.id = a.patient_status) patient_condition,
+           (select d.name
+              from hieip.h_patient_status_dict d
+             where d.id = a.patient_status) patient_condition_name,
+           (select d.code
+              from hieip.h_nursing_class_dict d
+             where d.id = a.nursing_class) nursing_class,
+           (select d.name
+              from hieip.h_nursing_class_dict d
+             where d.id = a.nursing_class) nursing_class_name,
+           (select id from hieip.h_area_dict where id = a.area_id) area_code,
+           (select nvl(t.act_triage_level, t.auto_triage_level)
+              from hieip.h_mh_triage_record t
+             where t.pv_id = a.pv_id
+               and t.triage_date = (select max(tt.triage_date)
+                                      from hieip.h_mh_triage_record tt
+                                     where tt.pv_id = a.pv_id
+                                       and t.is_del = 0)) triage_level
+      from hieip.h_pat_in_house a
+      left join hieip.h_diagnosis c
+        on a.pv_id = c.pv_id
+       and c.is_main_diagnosis = 1, hieip.h_mh_patient_visit b
+     where a.view_no is not null
+       and a.bed_label is not null
+       and a.bed_label != '-1'
+       and a.pv_id = b.id
+       and a.is_del = 0
+       and b.is_del = 0
+       and exists (select 1
+              from hieip.h_bed_dict tt
+             where tt.area_id = a.area_id
+               and tt.bed_label = a.bed_label);
+    comment on column oak_mr_pats_in_hospital."hsp_code" is '医院code';
+    comment on column oak_mr_pats_in_hospital."update_time" is '更新时间';
+    comment on column oak_mr_pats_in_hospital."is_newborn" is '是否是新生儿';
+    comment on column oak_mr_pats_in_hospital."lend_indicator" is '借床标志';
+    comment on column oak_mr_pats_in_hospital."dept_code_lend" is '借床科室';
+    comment on column oak_mr_pats_in_hospital."bed_ward_code" is '床位护理单元';
+    comment on column oak_mr_pats_in_hospital."bed_dept_code" is '床位科室代码';
+    comment on column oak_mr_pats_in_hospital."lend_bed_no" is '借床床位号';
+    comment on column oak_mr_pats_in_hospital."settled_indicator" is '出院结算标记';
+    comment on column oak_mr_pats_in_hospital."bill_checked_date_time" is '上次划价检查日期';
+    comment on column oak_mr_pats_in_hospital."guarantor_phone_num" is '经济担保人联系电话';
+    comment on column oak_mr_pats_in_hospital."guarantor_org" is '经济担保人所在单位';
+    comment on column oak_mr_pats_in_hospital."guarantor" is '经济担保人';
+    comment on column oak_mr_pats_in_hospital."total_charges" is '优惠后未结费用';
+    comment on column oak_mr_pats_in_hospital."total_costs" is '累计未结费用';
+    comment on column oak_mr_pats_in_hospital."prepayments" is '预交金余额';
+    comment on column oak_mr_pats_in_hospital."billing_date_time" is '计价截止日期及时间';
+    comment on column oak_mr_pats_in_hospital."operating_date" is '手术日期';
+    comment on column oak_mr_pats_in_hospital."doctor_in_charge" is '经治医生';
+    comment on column oak_mr_pats_in_hospital."diagnosis" is '主要诊断';
+    comment on column oak_mr_pats_in_hospital."diagnosis_name" is '主要诊断名称';
+    comment on column oak_mr_pats_in_hospital."adm_ward_date_time" is '入科日期及时间';
+    comment on column oak_mr_pats_in_hospital."discharge_date_time" is '出观日期及时间';
+    comment on column oak_mr_pats_in_hospital."admission_date_time" is '入院日期及时间';
+    comment on column oak_mr_pats_in_hospital."bed_no" is '床号';
+    comment on column oak_mr_pats_in_hospital."dept_code" is '所在科室代码';
+    comment on column oak_mr_pats_in_hospital."dept_name" is '所在科室名称';
+    comment on column oak_mr_pats_in_hospital."ward_code" is '所在病房代码';
+    comment on column oak_mr_pats_in_hospital."ward_name" is '所在病房名称';
+    comment on column oak_mr_pats_in_hospital."visit_id" is '病人本次住院标识';
+    comment on column oak_mr_pats_in_hospital."patient_id" is '急诊病人标识号';
+    comment on column oak_mr_pats_in_hospital."his_patient_id" is 'his病人标识号';
+    comment on column oak_mr_pats_in_hospital."duty_nurse_name" is '主管护士';
+    comment on column oak_mr_pats_in_hospital."patient_status" is '病情状态code';
+    comment on column oak_mr_pats_in_hospital."patient_condition_name" is '病情状态名称';
+    comment on column oak_mr_pats_in_hospital."nursing_class" is '护理等级';
+    comment on column oak_mr_pats_in_hospital."nursing_class_name" is '护理等级名称';
+    comment on column oak_mr_pats_in_hospital."triage_level" is '分诊患者病情登记';
+`;
