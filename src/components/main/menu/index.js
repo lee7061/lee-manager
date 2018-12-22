@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
+
 // 组件
-import RouteConfig from './../../../routeConfig.js'
+import RouteConfig from '../../../comments/routeConfig.js'
 import {Menu as AntMenu, Icon} from 'antd';
 import logo from './../../../images/logo.svg'
 
@@ -18,8 +20,11 @@ export default class Menu extends Component {
                 } else {
                     newMenu.push(
                         <AntMenu.Item key={r.key}>
-                            <Icon type={r.icon}/>
-                            <span>{r.title}</span>
+                            {/*不加replace当重复点击一个菜单的时候会有警告，每次都会把key加到path里面导致path有重复的*/}
+                            <NavLink to={r.key} replace>
+                                <Icon type={r.icon}/>
+                                <span>{r.title}</span>
+                            </NavLink>
                         </AntMenu.Item>)
                 }
             })

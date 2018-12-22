@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 // 全局的style
 import './style/index.scss';
 
-import Content from './content'
 import Header from './header'
 import Footer from './footer'
 import {Row, Col} from 'antd'
@@ -20,16 +19,13 @@ export default class Main extends Component {
                 <Col span="21" className="right">
                     {/*右侧头部*/}
                     <Header className="top">
-
                     </Header>
                     {/*右侧详情*/}
                     <Row className="content">
-                        {/*{this.props.children}*/}
-                        <Content/>
+                        {this.props.children}
                     </Row>
                     {/*右侧底部*/}
                     <Footer className="footer">
-
                     </Footer>
                 </Col>
             </Row>

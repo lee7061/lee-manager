@@ -17,22 +17,22 @@ const OAKMR_doctor_group =`
 `;
 
 // Create/Recreate primary, unique and foreign key constraints
-const OAKMR_hospital_dict= `
-    alter table oakmr.hospital_dict
-      add constraint uk_hospital_dict unique (hospital_name)
-      using index 
-      tablespace tsp_oakmr
-      pctfree 10
-      initrans 2
-      maxtrans 255
-      storage
-      (
-        initial 64k
-        next 1m
-        minextents 1
-        maxextents unlimited
-      );
-`;
+// const OAKMR_hospital_dict= `
+//     alter table oakmr.hospital_dict
+//       add constraint uk_hospital_dict unique (hospital_name)
+//       using index
+//       tablespace tsp_oakmr
+//       pctfree 10
+//       initrans 2
+//       maxtrans 255
+//       storage
+//       (
+//         initial 64k
+//         next 1m
+//         minextents 1
+//         maxextents unlimited
+//       );
+// `;
 
 // Add/modify columns
 const OAKMR_mr_patient_file_c_r_detail= `
@@ -46,14 +46,20 @@ const OAKMR_mr_patient_file_edit_apply= `
 
 // Add/modify columns
 const OAKMR_mr_patient_file_index= `
-    alter table oakmr.mr_patient_file_index modify patient_id varchar2(32);
-    alter table oakmr.mr_patient_file_index add body_height number;
-    alter table oakmr.mr_patient_file_index add table_height number;
+    alter table mr_patient_file_index add body_height number;
+    alter table mr_patient_file_index rename column is_delete to table_height;
+    alter table mr_patient_file_index modify table_height default null;
+    alter table mr_patient_file_index add locking_user varchar2(50);
+    alter table mr_patient_file_index add locking_date date;
     -- add comments to the columns 
-    comment on column oakmr.mr_patient_file_index.body_height
+    comment on column mr_patient_file_index.body_height
       is '病历高度';
-    comment on column oakmr.mr_patient_file_index.table_height
+    comment on column mr_patient_file_index.table_height
       is '表格高度';
+    comment on column mr_patient_file_index.locking_user
+      is '锁定用户';
+    comment on column mr_patient_file_index.locking_date
+      is '锁定时间';
 `;
 // Create table
 const OAKMR_mr_patient_file_locking= `
@@ -110,9 +116,9 @@ const OAKMR_mr_patient_file_locking= `
 `;
 
 // Add/modify columns
-const OAKMR_mr_template_class= `
-    alter table oakmr.mr_template_class modify one_file_flag not null;
-`;
+// const OAKMR_mr_template_class= `
+//     alter table oakmr.mr_template_class modify one_file_flag not null;
+// `;
 
 // Add/modify columns
 const OAKMR_mr_template_content_history= `
@@ -160,4 +166,11 @@ const OAKMR_oak_main_complaint= `
                and c.mr_class_flag = 2 --判断是不是小模板
             ) p
      where d.template_small_id = p.templet_unique_id;
+    comment on table oakmr.oak_main_complaint is '患者主诉信息字典表';
+    comment on column oakmr.oak_main_complaint.id is '患者主诉id';
+    comment on column oakmr.oak_main_complaint.patient_id is '患者标识符';
+    comment on column oakmr.oak_main_complaint.visit_id is '住院标识符';
+    comment on column oakmr.oak_main_complaint.hospital_no is '医院编号';
+    comment on column oakmr.oak_main_complaint.content is '主诉内容';
+    comment on column oakmr.oak_main_complaint.template_small_id is '模板id';
 `;

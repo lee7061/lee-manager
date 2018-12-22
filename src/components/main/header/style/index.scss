@@ -1,13 +1,38 @@
-.topFirst {
-  height: calc(15vh);
-  line-height: calc(15vh);
-  text-align: right;
+.top {
+  background-color: white;
 
-  .topUser {
-    margin-right: 10px;
+  .topFirst {
+    height: 50px;
+    line-height: 50px;
+    text-align: right;
+    border-bottom: 1px solid;
+
+    .topUser {
+      margin-right: 10px;
+    }
   }
-}
 
-.topSecond {
-  text-align: right;
+  .topSecond {
+    text-align: right;
+    height: 40px;
+    line-height: 40px;
+
+    .top-title {
+      text-align: center;
+
+      &:after {
+        position: absolute;
+        content: '';
+        top: 39px;
+        left: 100px;
+        border-top: 9px solid white;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+      }
+    }
+
+    .sysDate {
+      margin-right: 10px;
+    }
+  }
 }

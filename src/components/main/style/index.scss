@@ -1,21 +1,12 @@
 .container {
+
   .left {
     height: calc(100vh);
     border-right: 1px solid;
   }
 
   .right {
+    background-color: gray;
     height: calc(100vh);
-
-    .top {
-
-    }
-
-    .content {
-    }
-
-    .footer {
-
-    }
   }
 }
