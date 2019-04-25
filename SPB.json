@@ -1,0 +1,29 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "id": "500106",
+            "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                    "@@ZUBIEMIIQKGM@EDITGBEEQEMKM@G@AFCREnsHCHBBCAAGAOABCE@@ABABCDKA@GAABAF@FCBAKBGQAKEBGACGAAEEICGAACCDGCA@IC@A@CKM@ABAFI@EA@ECAG@EAS@AJ@HBBF@@BBDCBABFFDv@DBDOBA@ACE@EJ@HCDCCAEBEBA@GC@EFA@GCAEG@EDAD@BDBADBHCBICAJIBKFEHCBAABAACA@CFA@MGA@BAGCAGIGIB@EGHOEIDAGCAADIEECA@CHABECAQAAOD@CCAMBGEGAECEDAJGBBCCAAFC@CNBnDRHADBGJFTBNN`FDD@DBHTJJABEBGDCDJLH@LAFDCFMDCF@PBDHBFPEHAPGAAB@R@LADFD@RBADGFADBAFBFDBBCF@DDT\u0080D@FDN@BAAGFC@ALCD@BHBBp@DBADBBRCD@DF@JCFBBLEB@@BDBHCB@BFRG@EACDCBFJDH@PEB@FHDBAFDBBFD@LGHDHBFANIA[GKAKGMM\u007fFcIIdGDEF@DB@NBHDFLF"
+                ],
+                "encodeOffsets": [
+                    [
+                        109013,
+                        30381
+                    ]
+                ]
+            },
+            "properties": {
+                "cp": [
+                    106.4542,
+                    29.541224
+                ],
+                "name": "沙坪坝区",
+                "childNum": 1
+            }
+        }
+    ],
+    "UTF8Encoding": true
+}
